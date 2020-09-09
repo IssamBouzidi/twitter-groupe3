@@ -7,7 +7,21 @@ Project structure
 /resources.py: contains the key authentication of Azure API and Tweet API
 
 /database
-- python code files for database manipulation
+- db_access.py : python code files for database manipulation
+	Provide connection to the database with some methods:
+	-add_one_tweet
+	-add_many_tweets
+	-get_tweet_by_id
+	-get_tweets
+	-update_tweet_by_id
+	-update_tweets
+	-delete_tweets
+	
+	**method call:**
+	from database.db_access import DatabaseManager as db
+
+	db.getInstance().add_one_tweet(test)
+	
 
 /dataviz
 - SQL code
