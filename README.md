@@ -5,6 +5,7 @@ Project structure
 
 
 /resources.py: contains the key authentication of Azure API and Tweet API
+
 /database
 - python code files for database manipulation
 
