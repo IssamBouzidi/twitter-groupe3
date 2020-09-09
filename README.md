@@ -1,6 +1,10 @@
 # twitter-groupe3
 Réalisation du brief Smart tweet
 
+Project structure
+
+
+resources.py: contains the key authentication of Azure API and Tweet API
 /database
 - python code files for database manipulation
 
