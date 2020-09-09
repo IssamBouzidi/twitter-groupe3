@@ -20,11 +20,15 @@ Project structure
 	- delete_tweets
 	
 	**method call:**
-
+    ```python
 	from database.db_access import DatabaseManager as db
 
-	db.getInstance().add_one_tweet(test)
-	
+	db.getInstance().add_one_tweet({
+        'name' : 'tweet1',
+        'sentiment' : 2,
+        'text' : 'random comment'
+    })
+    ```
 
 /dataviz
 - SQL code
