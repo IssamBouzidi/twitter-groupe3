@@ -1,3 +1,8 @@
+###################################################
+#@author: Diem Bui
+#@Date: 08/09/2020
+###################################################
+
 import sys
 #sys.path.insert(0, '')
 from configuration import resources
@@ -7,6 +12,7 @@ import dataviz
 from datatweet.tweet_manager import TweetCollection
 from datatweet.tweet_manager import TweetSentimentPrediction
 from datatweet.tweet import SentTweet
+from database.database_access import DatabaseManager
 
 #from datatweet import tweet_manager
 #from datatweet.tweet_manager import TweetCollection
@@ -22,14 +28,32 @@ if __name__ == "__main__":
     , resources.ACCESS_TOKEN
     , resources.ACCESS_TOKEN_SECRET).get_tweet_by_product(product_name)
 
+
+#    print("before getting the sentiment")
     for tweet in list_tweet:
         print(tweet.to_json())
         print("\n")
 
-    list_response = TweetSentimentPrediction(list_tweet
+
+    list_sent_tweet = TweetSentimentPrediction(list_tweet
             , resources.SUBSCRIPTION_KEY
             , resources.SENTIMENT_ENDPOINT_URL).predict()
-            
-    print(list_response)
+    
+
+
+
+#    print("after getting the sentiment")
+    list_json = []
+    for tweet in list_sent_tweet:
+        print(tweet.to_json())
+        list_json.append(tweet.to_json())
+        print("\n")
+
+
+    mongo_instance = DatabaseManager(resources.MONGODB_USER
+                                    , resources.MONGODB_PASSWORD
+                                    , resources.MONGODB_SERVER)
+
+    mongo_instance.add_many_tweets(list_json)
 
     
