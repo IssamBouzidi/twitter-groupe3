@@ -11,109 +11,103 @@
         <div class="row row-cards">
           <div class="col-sm-12 col-lg-8">
             <div class="row">
-              <div class="col-sm-4 col-lg-4">
-                <div class="card">
-                  <div class="card-body text-center">
-                    <div class="h5">Réactions positives</div>
-                    <div class="display-4 font-weight-bold mb-4">328</div>
-                    <div class="progress progress-sm">
-                      <div class="progress-bar bg-green" style="width: 33%"></div>
+
+                <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body d-flex flex-column">
+                        <h4><a href="https://twitter.com/search?q=%23xboxseriess&src=typeahead_click"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
+                        <div class="text-muted">{{ hasttags }} liste des hashtag #jemlepoulet #troplol #tartiflette #saucisse #onseclate</div>
+                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-              <div class="col-sm-4 col-lg-4">
-                <div class="card">
-                  <div class="card-body text-center">
-                    <div class="h5">Réactions neutres</div>
-                    <div class="display-4 font-weight-bold mb-4">542</div>
-                    <div class="progress progress-sm">
-                      <div class="progress-bar bg-blue" style="width: 54%"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-4 col-lg-4">
-                <div class="card">
-                  <div class="card-body text-center">
-                    <div class="h5">Réactions négatives</div>
-                    <div class="display-4 font-weight-bold mb-4">130</div>
-                    <div class="progress progress-sm">
-                      <div class="progress-bar bg-red" style="width: 13%"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-13">
-                <div class="card card-aside">
-                  <div class="card-body d-flex flex-column">
-                    <h4><a href="#">And this isn't my nose. This is a false one.</a></h4>
-                    <div class="text-muted">Look, my liege! The Knights Who Say Ni demand a sacrifice! …Are you suggesting that coconuts migr...</div>
-                    <div class="d-flex align-items-center pt-5 mt-auto">
-                      <div class="avatar avatar-md mr-3" style="background-image: url(/static/assets/demo/faces/female/18.jpg)"></div>
-                      <div>
-                        <a href="./profile.html" class="text-default">Rose Bradley</a>
-                        <small class="d-block text-muted">3 days ago</small>
+                <div class="col-sm-4 col-lg-4">
+                  <div class="card">
+                    <div class="card-body text-center">
+                      <div class="h5">Réactions positives</div>
+                      <div class="display-4 font-weight-bold mb-4">328</div>
+                      <div class="progress progress-sm">
+                        <div class="progress-bar bg-green" style="width: 33%"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-          </div>
-          <div class="col-sm-12 col-lg-4">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="card-header">
-                    <h3 class="card-title">Récapitulatif</h3>
-                  </div>
-                  <div class="card-body">
-                    <div id="chart-pie" style="height: 15rem;"></div>
-                  </div>
+                <div class="col-sm-4 col-lg-4">
+                    <div class="card">
+                    <div class="card-body text-center">
+                        <div class="h5">Réactions neutres</div>
+                        <div class="display-4 font-weight-bold mb-4">542</div>
+                        <div class="progress progress-sm">
+                        <div class="progress-bar bg-blue" style="width: 54%"></div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <script>
-                  require(['c3', 'jquery'], function(c3, $) {
-                    $(document).ready(function(){
-                      var chart = c3.generate({
-                        bindto: '#chart-pie', // id of chart wrapper
-                        data: {
-                          columns: [
-                              // each columns data
-                            ['data1', 32,8],
-                            ['data2', 54,2],
-                            ['data3', 13]
-                          ],
-                          type: 'pie', // default type of chart
-                          colors: {
-                            'data1': tabler.colors["green"],
-                            'data2': tabler.colors["blue"],
-                            'data3': tabler.colors["red"]
-                          },
-                          names: {
-                              // name of each serie
-                            'data1': 'Positif',
-                            'data2': 'Neutre',
-                            'data3': 'Négatif'
-                          }
-                        },
-                        axis: {
-                        },
-                        legend: {
-                                  show: false, //hide legend
-                        },
-                        padding: {
-                          bottom: 0,
-                          top: 0
-                        },
-                      });
-                    });
-                  });
-                </script>
-              </div>
+                <div class="col-sm-4 col-lg-4">
+                    <div class="card">
+                    <div class="card-body text-center">
+                        <div class="h5">Réactions négatives</div>
+                        <div class="display-4 font-weight-bold mb-4">130</div>
+                        <div class="progress progress-sm">
+                        <div class="progress-bar bg-red" style="width: 13%"></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
-          </div>
-          
+            <div class="col-sm-12 col-lg-4">
+                <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Récapitulatif</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-pie" style="height: 15rem;"></div>
+                    </div>
+                    </div>
+                    <script>
+                    require(['c3', 'jquery'], function(c3, $) {
+                        $(document).ready(function(){
+                        var chart = c3.generate({
+                            bindto: '#chart-pie', // id of chart wrapper
+                            data: {
+                            columns: [
+                                // each columns data
+                                ['data1', 32,8],
+                                ['data2', 54,2],
+                                ['data3', 13]
+                            ],
+                            type: 'pie', // default type of chart
+                            colors: {
+                                'data1': tabler.colors["green"],
+                                'data2': tabler.colors["blue"],
+                                'data3': tabler.colors["red"]
+                            },
+                            names: {
+                                // name of each serie
+                                'data1': 'Positif',
+                                'data2': 'Neutre',
+                                'data3': 'Négatif'
+                            }
+                            },
+                            axis: {
+                            },
+                            legend: {
+                                    show: false, //hide legend
+                            },
+                            padding: {
+                            bottom: 0,
+                            top: 0
+                            },
+                        });
+                        });
+                    });
+                    </script>
+                </div>
+                </div>
+            </div>
+            
 
           <div class="col-12">
             <div class="card">
@@ -129,6 +123,7 @@
                       <th>Auteur</th>
                       <th>Message</th>
                       <th>Status</th>
+                      <th>Hashtags associés</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -142,34 +137,24 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
+                        <span class="status-icon bg-red"></span> Negatif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+                    
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
                         <span class="status-icon bg-green"></span> Positif
                       </td>
-                    </tr>
-                    <tr>
-                      <td><span class="text-muted">001401</span></td>
-                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
-                      <td>
-                        Carlson Limited
-                      </td>
-                      <td>
-                        8Bonjour je suis un corps de message test et je vous aime.
-                      </td>
-                      <td>
-                        <span class="status-icon bg-success"></span> Positif
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><span class="text-muted">001401</span></td>
-                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
-                      <td>
-                        Carlson Limited
-                      </td>
-                      <td>
-                        8Bonjour je suis un corps de message test et je vous aime.
-                      </td>
-                      <td>
-                        <span class="status-icon bg-red"></span> Negatif
-                      </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -184,6 +169,7 @@
                       <td>
                         <span class="status-icon bg-blue"></span> Neutre
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -196,8 +182,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -210,8 +197,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-blue"></span> Neutre
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -224,8 +212,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-red"></span> Negatif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -238,8 +227,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-blue"></span> Neutre
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -252,8 +242,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-red"></span> Negatif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -266,8 +257,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -280,8 +272,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -294,8 +287,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -308,8 +302,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -322,8 +317,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-blue"></span> Neutre
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -336,8 +332,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -350,8 +347,9 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
                     <tr>
@@ -364,11 +362,115 @@
                         8Bonjour je suis un corps de message test et je vous aime.
                       </td>
                       <td>
-                        <span class="status-icon bg-success"></span> Positif
+                        <span class="status-icon bg-green"></span> Positif
                       </td>
+                      <td>#ctropouf #diese</td>
                     </tr>
 
-                    
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-red"></span> negatif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
+
+                    <tr>
+                      <td><span class="text-muted">001401</span></td>
+                      <td><a href="invoice.html" class="text-inherit">12 dec. 2019</a></td>
+                      <td>
+                        Carlson Limited
+                      </td>
+                      <td>
+                        8Bonjour je suis un corps de message test et je vous aime.
+                      </td>
+                      <td>
+                        <span class="status-icon bg-green"></span> Positif
+                      </td>
+                      <td>#ctropouf #diese</td>
+                    </tr>
                   </tbody>
                 </table>
                 <script>
