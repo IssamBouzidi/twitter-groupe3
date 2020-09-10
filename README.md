@@ -2,8 +2,12 @@
 # twitter-groupe3
 Réalisation du brief Smart tweet
 
-Project structure
 
+### Installation
+- tweepy
+- pymongo
+
+### Project structure
 
 /resources.py: contains the key authentication of Azure API and Tweet API
 
