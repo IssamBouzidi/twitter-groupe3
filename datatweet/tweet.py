@@ -21,13 +21,15 @@ class SentTweet:
         # sentiment is an json object
         self.sentiment = ''
 
-
+    def update_sentiment(self, sentiment):
+        self.sentiment = sentiment
 
     def to_json(self):
 
-        return {"id": str(self.id)
+        return {"tweet_id": str(self.id)
                 , "text": self.text
                 , "user_name": self.user_name
+                , "user_screenname" : self.user_screenname
                 , "user_location": self.user_location
                 , "language" : self.language
                 , "created_at" : self.created_at
