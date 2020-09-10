@@ -1,31 +1,7 @@
-# __future__ import absolute_import
-#print('__file__={0:<35} | __name__={1:<25} | __package__={2:<25}'.format(__file__,__name__,str(__package__)))
-
-#import os
-#import sys
-#sys.path.append(os.path.realpath('.'))
-#.path.insert(0, '')
-#from d import *
-
-#from ..configuration.resources import CONSUMER_KEY, CONSUMER_SECRRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET
-#from .. import.resources.CONSUMER_KEY
-#from configuration.resources import SUBSCRIPTION_KEY
-#from configuration.resources import SENTIMENT_ENDPOINT_URL
-#from configuration.resources import ACCESS_TOKEN
-#from configuration.resources import ACCESS_TOKEN_SECRET
-
-
-
-#import resources #import CONSUMER_KEY
-'''#
-from .configuration.resources import CONSUMER_SECRRET
-from ..configuration.resources import SUBSCRIPTION_KEY
-from ..configuration.resources import SENTIMENT_ENDPOINT_URL
-from ..configuration.resources import ACCESS_TOKEN
-from ..configuration.resources import ACCESS_TOKEN_SECRET
-'''
-
-#from .twitter.configuration import resources
+###################################################
+#@author: Diem Bui
+#@Date: 08/09/2020
+###################################################
 
 
 import tweepy
