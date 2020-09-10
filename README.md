@@ -41,3 +41,8 @@ Réalisation du brief Smart tweet
 /datatweet
 - Python code for tweet data management
 - Python code for sentiment score retrieving
+
+/Dashboard : contains the local website structure and templates.
+
+### Launch
+- /Dashboard: run.py
