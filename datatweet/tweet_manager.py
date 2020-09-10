@@ -15,7 +15,11 @@ from datatweet.tweet import SentTweet
 
 class TweetCollection:
 
-    def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret):
+    def __init__(self
+                , consumer_key
+                , consumer_secret
+                , access_token
+                , access_token_secret):
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.access_token = access_token
@@ -73,6 +77,28 @@ class TweetSentimentPrediction:
     def get_header(self):
         return {"Ocp-Apim-Subscription-Key": self.subcription_key}
 
+    def get_sentiment(self, response):
+        """get sentiment score of tweet
+
+        Args:
+            documents (json): a json with structure: {"documents": []
+                                                        "errors", []
+                                                        ,"modelVersion" : []}
+        Return a json object with structure:
+            {sentiment": "positive"
+            , "confidenceScores": 
+            {
+                "positive": 1.0,
+                "neutral": 0.0,
+                "negative": 0.0
+            }}
+        """
+#        print(response)
+
+        sentiment = {"sentiment_score" : response["sentiment"]
+                    , "confidence_scores" : response["confidenceScores"]}
+        return sentiment
+
 
 
     def create_documents(self):
@@ -85,10 +111,18 @@ class TweetSentimentPrediction:
 
 
     def predict(self):
+        """
+        return a List <SentTweet> with sentiment updated
+        """
 
         documents = self.create_documents()
         response = requests.post(self.endpoint_url, headers=self.get_header(), json=documents)
-        return response.json()
+        jsresponse =  response.json()
+
+        for tweet, resp in zip(self.list_tweet, jsresponse['documents']):
+            tweet.update_sentiment(self.get_sentiment(resp))
+        
+        return self.list_tweet
 
     
 
