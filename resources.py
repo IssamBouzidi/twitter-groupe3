@@ -1,3 +1,9 @@
+    
+###################################################
+#@author: Diem Bui
+#@Date: 08/09/2020
+###################################################
+
     """twitter authentication
     """
     CONSUMER_KEY="WPnrUKbjiZiCyOk8PjhNXS6SX"
