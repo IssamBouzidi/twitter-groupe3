@@ -15,7 +15,12 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-8">
                     <div class="card">
-                        Là on fout le tweet
+                        <center><blockquote class="twitter-tweet">
+                            <p lang="en" dir="ltr">John Lennon&#39;s Imagine album was released #onthisday 9 September 1971 in the USA. Find out more about Imagine (The Ultimate Collection) 
+                                at <a href="https://t.co/IIHclHUXMS">https://t.co/IIHclHUXMS</a></p>
+                                &mdash; John Lennon (@johnlennon) <a href="https://twitter.com/johnlennon/status/1303798455677136906?ref_src=twsrc%5Etfw">September 9, 2020</a>
+                        </blockquote></center>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
                     </div>
                   </div>
                   
@@ -27,7 +32,7 @@
                             <div v-if="status==1" class="h5">Réaction positive</div>
                             <div v-else-if="status==2" class="h5">Réaction négative</div>
                             <div  v-else class="h5">Réaction neutre</div>
-                            <div class="display-4 font-weight-bold mb-4">{{ accurarcy + '%' }}</div>
+                            <div class="display-4 font-weight-bold mb-4">{{ accurarcy  }}%</div>
                             <div class="progress progress-sm">
                               <div v-if="status==1" class="progress-bar bg-green" :style="{ width: accurarcy + '%' }"></div>
                               <div v-else-if="status==2" class="progress-bar bg-red" :style="{ width: accurarcy + '%' }"></div>
@@ -71,11 +76,12 @@
 
         </div>
     </div>
+    <script src="/static/assets/js/tweet.js"></script>
 
     
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
-<script src="/static/assets/js/tweet.js"></script>
+
 
