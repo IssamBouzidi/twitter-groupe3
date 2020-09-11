@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from ..resources import MONGODB_PASSWORD, MONGODB_SERVER, MONGODB_USER
+from configuration.resources import MONGODB_PASSWORD, MONGODB_SERVER, MONGODB_USER
 
 class DatabaseManager:
     """Provide methods and connection to the MongoDb database
@@ -21,6 +21,7 @@ class DatabaseManager:
             raise Exception("This class is a singleton!")
         else:
             DatabaseManager.__instance = self
+            print(DatabaseManager.__CONNECTION_STRING)
             self.__client = MongoClient(DatabaseManager.__CONNECTION_STRING)
 
     def __get_collection(self, db_name, collection_name):
@@ -71,7 +72,7 @@ class DatabaseManager:
         Returns:
             json: the enhanced tweet
         """
-        return self.__get_collection('smart_tweets', 'tweets').find_one({'_id': id})
+        return self.__get_collection('smart_tweets', 'tweets').find_one({'tweet_id': id})
 
     def get_tweets(self, filters):
         """get tweets by filter
@@ -95,7 +96,7 @@ class DatabaseManager:
         Returns:
             bool: True if one tweet updated else false
         """
-        result = self.__get_collection('smart_tweets', 'tweets').update_one({'_id': id}, {"$set": data}, upsert=True)
+        result = self.__get_collection('smart_tweets', 'tweets').update_one({'tweet_id': id}, {"$set": data}, upsert=True)
         return result.modified_count == 1
 
     def update_tweets(self, filters, data):

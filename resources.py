@@ -26,3 +26,6 @@
     SENTIMENT_ENDPOINT_URL =  'https://cs-groupe-trois.cognitiveservices.azure.com/text/analytics/v3.0/sentiment'
     SUBSCRIPTION_KEY = "c42ac7b0e0944f748407efd276d748ff"
 
+    """Website configuration
+    """
+    APPSEED_CONFIG_MODE = Debug
