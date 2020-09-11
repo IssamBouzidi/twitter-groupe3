@@ -1,6 +1,4 @@
 {% extends "base-site.html" %}
-<!-- Vue  -->
-<script src="/static/assets/plugins/vue/vue.js"></script>
 
 {% block title %} Page Blank {% endblock %} 
 
@@ -15,27 +13,32 @@
                 <div class="row">
                   <div class="col-sm-12 col-lg-8">
                     <div class="card">
-                        Là on fout le tweet
+                        <center>
+                            <blockquote class="twitter-tweet" data-lang="en">
+                                <a href="https://twitter.com/ZaakDzz/status/1304045485242580992"></a>
+                            </blockquote>
+                            <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </center>
                     </div>
                   </div>
                   
                   <!-- vue.js-->
-                  <div id="vuejs" class="col-sm-12 col-lg-4">
+                  <div id="tweet_view" class="col-sm-12 col-lg-4">
                     <!-- partie variable -->
                     <div class="card">
                         <div class="card-body text-center">
-                            <div v-if="status==1" class="h5">Réaction positive</div>
-                            <div v-else-if="status==2" class="h5">Réaction négative</div>
+                            <div v-if="accuracy >= 60" class="h5">Réaction positive</div>
+                            <div v-else-if="accuracy < 40" class="h5">Réaction négative</div>
                             <div  v-else class="h5">Réaction neutre</div>
-                            <div class="display-4 font-weight-bold mb-4">{{ accurarcy + '%' }}</div>
+                            <div class="display-4 font-weight-bold mb-4">{{ accuracy + '%'}}</div>
                             <div class="progress progress-sm">
-                              <div v-if="status==1" class="progress-bar bg-green" :style="{ width: accurarcy + '%' }"></div>
-                              <div v-else-if="status==2" class="progress-bar bg-red" :style="{ width: accurarcy + '%' }"></div>
-                              <div v-else class="progress-bar bg-blue" :style="{ width: accurarcy + '%' }"></div>
+                              <div v-if="accuracy >= 60" class="progress-bar bg-green" :style="{ width: accuracy + '%' }"></div>
+                              <div v-else-if="accuracy < 40" class="progress-bar bg-red" :style="{ width: accuracy + '%' }"></div>
+                              <div v-else class="progress-bar bg-blue" :style="{ width: accuracy + '%' }"></div>
                             </div>
                           </div>
                     </div>
-                    <div v-if="status==1" class="card">
+                    <div v-if="accuracy >= 60" class="card">
                       <div class="card-header bg-green">
                           <h3 class="card-title white maj">Analyse positive :)</h3>
                       </div>
@@ -44,7 +47,7 @@
                       </div>
                     </div>
               
-                    <div v-else-if="status==2" class="card">
+                    <div v-else-if="accuracy < 40" class="card">
                       <div class="card-header bg-red">
                           <h3 class="card-title white maj">Analyse négative :(</h3>
                       </div>
@@ -72,10 +75,23 @@
         </div>
     </div>
 
-    
+    <script>
+        try{
+        var app = new Vue({
+            el:'#tweet_view',
+            data: {
+                accuracy:'%[accuracy]%'
+            }
+        });
+    } catch (error) {
+        alert(error);
+    }
+    </script>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
-<script src="/static/assets/js/tweet.js"></script>
+
+
+
 

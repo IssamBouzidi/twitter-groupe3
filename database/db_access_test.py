@@ -1,4 +1,4 @@
-from db_access import DatabaseManager as db
+from database.db_access import DatabaseManager as db
 
 #test dataset
 test = {
