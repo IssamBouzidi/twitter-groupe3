@@ -1,66 +1,70 @@
 import requests
-# pprint is used to format the JSON response
 from pprint import pprint
 import os
 
+#Extraction des données du json généré par Azure Text Ananlytics
+def traitement_Data_IA():
+    for j in sentiments["documents"]:
+        for repere, valeur in j.items(): 
+            if (repere == 'id'):
+                valeurId = valeur
+            if (repere == 'sentences'):
+                for k in valeur:
+                    for repere2, valeur2 in k.items(): 
+                        if (repere2 == 'confidenceScores'):
+                            for l in valeur2:
+                                valeurPositive = valeur2['positive']
+                                valeurNeutral = valeur2['neutral']
+                                valeurNegative = valeur2['negative']
+                        if (repere2 == 'length'):
+                            valeurLength = valeur2
+                        if (repere2 == 'offset'):
+                            valeurOffset = valeur2
+                        if (repere2 == 'sentiment'):
+                            valeurSentiment = valeur2
+                        if (repere2 == 'text'):
+                            valeurText = valeur2
+            if (repere == 'sentiment'): 
+                valeurSentimentFinal = valeur
+
+        resultat.append({"id": valeurId, 
+                        "text": valeurText,
+                        "length": valeurLength,
+                        "offset": valeurOffset, 
+                        "sentiment": valeurSentiment,
+                        "sentiments": valeurSentimentFinal,
+                        "positive": valeurPositive,
+                        "neutral": valeurNeutral,
+                        "negative": valeurNegative})
+
+liste = []
+resultat = []
+
+#Ces variables sont essentielles pour se connecter à Azure Text Ananlytics
 subscription_key = "c42ac7b0e0944f748407efd276d748ff"
 endpoint = "https://cs-groupe-trois.cognitiveservices.azure.com/"
 
-liste = []
-
-print("Sentiments :")
-
+#Ici, seul l'analyse de sentiments est nécessaire
 sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
-documents = {"documents": [
+#Cette variable doit être remplacée par le bon fichier json
+documentJson = {"documents": [
     {"id": "1", "language": "fr",
         "text": "Je suis content."},
     {"id": "2", "language": "fr",
         "text": "Cela ne me fait ni chaud, ni froid."},
     {"id": "3", "language": "fr",
         "text": "Ca me donne envie d'hurler"},
+    {"id": "4", "language": "fr",
+        "text": "Comment ça va ?"}
 ]}
 
-for i in documents:
-    liste = documents["documents"]
-    liste.append({"id": "4", "language": "fr",
-        "text": "Comment ça va ?"})
-
-    """for d in documents["documents"]:
-        for k, v in d.items(): 
-            if (k is 'text'):
-                print(v)
-
-    print (liste)"""
-
-"""res = [[i for i in documents[x]] for x in test_dict.keys()] 
-	
-# printing result 
-print("Résultat : " + str(res)) """
-
-
+#Appel d'Azure
 headers = {"Ocp-Apim-Subscription-Key": subscription_key}
-response = requests.post(sentiment_url, headers=headers, json=documents)
+response = requests.post(sentiment_url, headers=headers, json=documentJson)
 sentiments = response.json()
-#pprint(sentiments["documents"])
 
-"""for d in sentiments:
-    for d in sentiments["documents"]:
-        for k, v in d.items(): 
-            print(k, v)
-            if (k == 'id'):
-                print(v)"""
+#Appel de la fonction
+traitement_Data_IA()
 
-#for i in sentiments:
-for j in sentiments["documents"]:
-    print(j['id'])
-    for repere, valeur in j.items(): 
-        if (repere == 'sentences'):
-            for k in valeur:
-                for repere2, valeur2 in k.items(): 
-                    if (repere2 == 'confidenceScores'):
-                        for l in valeur2:
-                            print(l, valeur2['positive'])
-                            print(l, valeur2['neutral'])
-                            print(l, valeur2['negative'])
-
+print (resultat)
