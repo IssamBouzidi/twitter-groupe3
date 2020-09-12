@@ -15,7 +15,7 @@
                     <div class="card">
                         <center>
                             <blockquote class="twitter-tweet" data-lang="en">
-                                <a href="https://twitter.com/%[username]%/status/%[tweet_id]%"></a>
+                                <a href="https://twitter.com/[[username]]/status/[[tweet_id]]"></a>
                             </blockquote>
                             <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                         </center>
@@ -83,30 +83,19 @@
                 </div>
               </div>
             </div>
-
         </div>
     </div>
     <script src="/static/assets/js/tweet.js"></script>
 
     <script>
         try{
-            
-            // var app = new Vue({
-            //     el:'#tweet_view',
-            //     data: {
-            //         positive:%[positive]%,
-            //         neutral: %[neutral]%,
-            //         negative: %[negative]%,
-            //         status: %[score]%
-            //     }
-            // });
             var app = new Vue({
                 el:'#tweet_view',
                 data: {
-                    positive:'%[positive]%',
-                    neutral: '%[neutral]%',
-                    negative: '%[negative]%',
-                    status: '%[score]%'
+                    positive:'[[positive]]',
+                    neutral: '[[neutral]]',
+                    negative: '[[negative]]',
+                    status: '[[score]]'
                 }
             });
         } 

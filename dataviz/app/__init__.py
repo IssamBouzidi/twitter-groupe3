@@ -59,8 +59,8 @@ def create_app(config, selenium=False):
 	# change jinja delimiter to prevent conflict with view.js
     jinja_options = app.jinja_options.copy()
     jinja_options.update(dict(
-        variable_start_string='%[',
-        variable_end_string=']%',
+        variable_start_string='[[',
+        variable_end_string=']]',
     ))
     app.jinja_options = jinja_options
  

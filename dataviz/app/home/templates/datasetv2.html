@@ -1,0 +1,81 @@
+{% extends "base-site.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+{% block content %}
+
+    <div class="my-3 my-md-5">
+        <div class="container" style="margin: 0;max-width: 100%;overflow: auto;">
+            <div id="tweet_view" class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Tous les tweets</h3>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table card-table table-vcenter text-nowrap datatable">
+                  <thead>
+                    <tr>
+                      <th class="w-1">No.</th>
+                      <th>Date</th>
+                      <th>Auteur</th>
+                      <th>Message</th>
+                      <th>Status</th>
+                      <th>Hashtags associés</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(tweet, rindex) in tweet_list">
+                      <td><span class="text-muted">
+                        <a :href="'/tweet?id=' + tweet.tweet_id" >{{tweet.tweet_id}}</a>
+                        </span></td>
+                      <td><a href="invoice.html" class="text-inherit">{{tweet.created_at  | dateParse('YYYY-MM-DD') | dateFormat('MMMM D, YYYY')}}</a></td>
+                      <td>
+                        {{tweet.user_name}}
+                      </td>
+                      <td>
+                        {{tweet.text}}
+                      </td>
+                      <td>
+                            <span v-if="tweet.sentiment.sentiment_score == 'negative'" class="status-icon bg-red"></span> {{tweet.sentiment.sentiment_score}}
+                            <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
+                            <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
+                      </td>
+                      <td>
+                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
+                            {{'#' + hashtag.text}}
+                        </span>
+                      </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <script>
+                      require(['datatables', 'jquery'], function(datatable, $) {
+                            $('.datatable').DataTable();
+                          });
+                    </script>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+  
+    <script>
+        try{
+                result = JSON.parse([[tweets| tojson | safe]]);
+
+                var app = new Vue({
+                    el:'#tweet_view',
+                    data: {
+                        tweet_list: result
+                    }
+                });
+            } 
+            catch (error) {
+                alert(error);
+            }
+    </script>
+    
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

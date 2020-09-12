@@ -8,6 +8,15 @@ from flask import jsonify, render_template, redirect, request, url_for
 from dataviz.app.base import blueprint
 from dataviz.app.base.util import verify_pass
 from database.db_access import DatabaseManager as db
+from bson.json_util import dumps
+import json
+
+class ComplexEncoder(json.JSONEncoder):
+    def default(self, obj): # pylint: disable=method-hidden
+        if isinstance(obj, complex):
+            return [obj.real, obj.imag]
+         # Let the base class default method raise the TypeError
+        return json.JSONEncoder.default(self, obj)
 
 @blueprint.route('/')
 def route_default():
@@ -32,6 +41,13 @@ def tweet_page():
             negative = float(tweet.get('sentiment')['confidence_scores']['negative'])*100,
             score = tweet.get('sentiment')['sentiment_score'],
             username=tweet.get('user_screenname'))
+
+@blueprint.route('/dataset')
+def tweets_page():
+    tweets = db.getInstance().get_tweets({})
+    json_data = dumps(tweets, cls=ComplexEncoder)
+    return render_template('datasetv2.html', tweets = json_data)
+
 
 ## Errors
 
