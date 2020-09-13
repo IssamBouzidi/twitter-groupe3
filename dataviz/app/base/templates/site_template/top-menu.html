@@ -8,19 +8,35 @@
                     <div class="col-lg order-lg-first">
                       <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                         <li class="nav-item">
-                          <a href="/" class="nav-link active"><i class="fe fe-home"></i> Accueil</a>
+                          <a href="/" class="nav-link"><i class="fe fe-home"></i> Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a href="/dataset" class="nav-link"><i class="fe fe-grid"></i> Table de données</a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item" id='tweet_tab' style='display:none;'>
                           <a href="/tweet" class="nav-link"><i class="fe fe-twitter"></i> Tweet</a>
                         </li>
-                        
-
                       </ul>
                     </div>
                   </div>
                 </div>
             </div>
-             
+            <script>
+                $( document ).ready(function() {
+                    $( 'a[href*="/"]' ).removeClass('active');
+
+                    if(window.location.pathname.includes("/tweet"))
+                    {
+                        $( 'a[href*="/tweet"]' ).addClass('active');
+                    }
+                    else if(window.location.pathname.includes("/dataset"))
+                    {
+                        $( 'a[href*="/dataset"]' ).addClass('active');
+                    }
+                    else
+                    {
+                        $( 'a[href="/"]' ).addClass('active');
+                    }
+                });
+
+            </script>             
