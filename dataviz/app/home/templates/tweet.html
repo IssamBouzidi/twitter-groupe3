@@ -33,24 +33,24 @@
                             <div style="margin: 10px;">
                                 <div class="h5">Sentiment positif :</div>
                                 <div class="progress progress-sm">
-                                    <div class="progress-bar bg-green" :style="{ width: positive + '%' }"></div>
+                                    <div class="progress-bar bg-green" :style="{ width: positive_score + '%' }"></div>
                                 </div>
                             </div>
                             <div style="margin: 10px;">
                                 <div class="h5">Avis neutre :</div>
                                 <div class="progress progress-sm">
-                                    <div class="progress-bar bg-blue" :style="{ width: neutral + '%' }"></div>
+                                    <div class="progress-bar bg-blue" :style="{ width: neutral_score + '%' }"></div>
                                 </div>
                             </div>
                             <div style="margin: 10px;">
                                 <div class="h5">Sentiment négatif :</div>
                                 <div class="progress progress-sm">
-                                    <div class="progress-bar bg-red" :style="{ width: negative + '%' }"></div>
+                                    <div class="progress-bar bg-red" :style="{ width: negative_score + '%' }"></div>
                                 </div>
                             </div>
                           </div>
                     </div>
-                    <div v-if="status == 'positive'" class="card">
+                    <div v-if="tweet.sentiment.sentiment_score == 'positive'" class="card">
                       <div class="card-header bg-green">
                           <h3 class="card-title white maj">Analyse positive :)</h3>
                       </div>
@@ -59,7 +59,7 @@
                       </div>
                     </div>
               
-                    <div v-else-if="status == 'negative'" class="card">
+                    <div v-else-if="tweet.sentiment.sentiment_score == 'negative'" class="card">
                       <div class="card-header bg-red">
                           <h3 class="card-title white maj">Analyse négative :(</h3>
                       </div>
@@ -68,7 +68,7 @@
                       </div>
                     </div>
               
-                    <div v-else class="card">
+                    <div v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="card">
                       <div class="card-header bg-blue">
                           <h3 class="card-title white maj">Analyse neutre...</h3>
                       </div>
@@ -76,6 +76,15 @@
                           Cet utilisateur s'en fou, n'a aucun avis et aucune personnalité. C'est triste...
                       </div>
                     </div>
+
+                    <div v-else class="card">
+                        <div class="card-header bg-gray-light">
+                            <h3 class="card-title white maj">Analyse non executée...</h3>
+                        </div>
+                        <div class="card-body">
+                            L'analyse cognitive du tweet n'a pas été effectuée...
+                        </div>
+                      </div>
                     <!-- fin partie variable-->
                     </div>
                     <!-- fin vue.js-->
@@ -85,18 +94,36 @@
             </div>
         </div>
     </div>
-    <script src="/static/assets/js/tweet.js"></script>
 
-    <script>
+<script>
         try{
+            result = JSON.parse([[tweet | tojson | safe]]);
+            
+            positive = neutral = negative = 0;
+            if(result.sentiment != '') 
+                {
+                    positive = result.sentiment.confidence_scores.positive * 100;
+                    neutral = result.sentiment.confidence_scores.neutral * 100;
+                    negative = result.sentiment.confidence_scores.negative * 100;
+                }
+
             var app = new Vue({
                 el:'#tweet_view',
                 data: {
-                    positive:'[[positive]]',
-                    neutral: '[[neutral]]',
-                    negative: '[[negative]]',
-                    status: '[[score]]'
-                }
+                    positive_score: positive,
+                    neutral_score: neutral,
+                    negative_score: negative,
+                    tweet: result
+                },
+                mounted:function(){
+                    this.tweet_tab_display() 
+                },
+                methods:{
+                    tweet_tab_display:function(){
+                        var tab_tweet = document.getElementById('tweet_tab');
+                        tab_tweet.style.display = "block" ;
+                    }
+                },
             });
         } 
         catch (error) {

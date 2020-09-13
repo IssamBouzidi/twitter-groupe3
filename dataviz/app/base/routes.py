@@ -9,14 +9,6 @@ from dataviz.app.base import blueprint
 from dataviz.app.base.util import verify_pass
 from database.db_access import DatabaseManager as db
 from bson.json_util import dumps
-import json
-
-class ComplexEncoder(json.JSONEncoder):
-    def default(self, obj): # pylint: disable=method-hidden
-        if isinstance(obj, complex):
-            return [obj.real, obj.imag]
-         # Let the base class default method raise the TypeError
-        return json.JSONEncoder.default(self, obj)
 
 @blueprint.route('/')
 def route_default():
@@ -35,19 +27,15 @@ def tweet_page():
     if tweet == None:
         return render_template('tweet-not-found.html'), 404
 
-    return render_template('tweet.html', tweet_id=tweet.get('tweet_id'), 
-            positive = float(tweet.get('sentiment')['confidence_scores']['positive'])*100,
-            neutral = float(tweet.get('sentiment')['confidence_scores']['neutral'])*100,
-            negative = float(tweet.get('sentiment')['confidence_scores']['negative'])*100,
-            score = tweet.get('sentiment')['sentiment_score'],
-            username=tweet.get('user_screenname'))
+    json_data = dumps(tweet)
+    return render_template('tweet.html', tweet_id=tweet.get('tweet_id'), username=tweet.get('user_screenname'), tweet= json_data)
 
 @blueprint.route('/dataset')
 def tweets_page():
     tweets = db.getInstance().get_tweets({})
-    json_data = dumps(tweets, cls=ComplexEncoder)
-    return render_template('datasetv2.html', tweets = json_data)
+    json_data = dumps(tweets)
 
+    return render_template('datasetv2.html', tweets = json_data)
 
 ## Errors
 

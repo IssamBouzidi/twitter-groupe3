@@ -18,6 +18,7 @@
                       <th class="w-1">No.</th>
                       <th>Date</th>
                       <th>Auteur</th>
+                      <th>Langue</th>
                       <th>Status</th>
                       <th>Hashtags associés</th>
                       <th>Message</th>
@@ -28,21 +29,26 @@
                       <td><span class="text-muted">
                         <a :href="'/tweet?id=' + tweet.tweet_id" >{{tweet.tweet_id}}</a>
                         </span></td>
-                      <td><a href="invoice.html" class="text-inherit">{{tweet.created_at  | dateParse('YYYY-MM-DD') | dateFormat('MMMM D, YYYY')}}</a></td>
                       <td>
+                          {{tweet.created_at.$date| formatDate}}
+                      </td>
+                      <td style="width: 200px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis" :title="tweet.user_name">
                         {{tweet.user_name}}
+                      </td>
+                      <td>
+                        {{tweet.language}}
                       </td>
                       <td>
                             <span v-if="tweet.sentiment.sentiment_score == 'negative'" class="status-icon bg-red"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
-                      <td>
+                      <td style="width: 350px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
                             {{'#' + hashtag.text}}
                         </span>
                       </td>
-                      <td>
+                      <td :title="tweet.text">
                         {{tweet.text}}
                       </td>
                     </tr>
@@ -63,12 +69,21 @@
         try{
                 result = JSON.parse([[tweets| tojson | safe]]);
 
+                Vue.filter('formatDate', function(value) {
+                    if (value) {
+                        var date = new Date(value);
+                        return date.toLocaleString();
+                    }
+                });
+
                 var app = new Vue({
                     el:'#tweet_view',
                     data: {
                         tweet_list: result
                     }
                 });
+
+                
             } 
             catch (error) {
                 alert(error);
