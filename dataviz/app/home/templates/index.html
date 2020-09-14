@@ -63,12 +63,48 @@
                         <h3 class="card-title">Récapitulatif</h3>
                     </div>
                     <div class="card-body">
-                        <div id="chart-pie" style="height: 20rem;">
-							<canvas id="chDonut3"></canvas>
-						 </div>
+                        <div id="chart-pie" style="height: 15rem;"></div>
                     </div>
                     </div>
-                    </div>
+                    <script>
+                    require(['c3', 'jquery'], function(c3, $) {
+                        $(document).ready(function(){
+                        var chart = c3.generate({
+                            bindto: '#chart-pie', // id of chart wrapper
+                            data: {
+                            columns: [
+                                // each columns data
+                                ['data1', 32,8],
+                                ['data2', 54,2],
+                                ['data3', 13]
+                            ],
+                            type: 'pie', // default type of chart
+                            colors: {
+                                'data1': tabler.colors["green"],
+                                'data2': tabler.colors["blue"],
+                                'data3': tabler.colors["red"]
+                            },
+                            names: {
+                                // name of each serie
+                                'data1': 'Positif',
+                                'data2': 'Neutre',
+                                'data3': 'Négatif'
+                            }
+                            },
+                            axis: {
+                            },
+                            legend: {
+                                    show: false, //hide legend
+                            },
+                            padding: {
+                            bottom: 0,
+                            top: 0
+                            },
+                        });
+                        });
+                    });
+                    </script>
+                </div>
                 </div>
             </div>
             
@@ -87,8 +123,8 @@
                       <th>Auteur</th>
                       <th>Langue</th>
                       <th>Status</th>
-                      <th>Score</th>
                       <th>Hashtags associés</th>
+                      <th>Message</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -102,7 +138,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td class="twitter_username" :title="tweet.user_name">
+                      <td style="width: 200px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -113,13 +149,13 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
-                      <td>
-                        {{tweet.sentiment.confidence_scores.positive + '%'}}
-                      </td>
-                      <td style="text-overflow: ellipsis">
-                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
+                      <td style="width: 350px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis">
+                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
                             {{'#' + hashtag.text}}
                         </span>
+                      </td>
+                      <td :title="tweet.text">
+                        {{tweet.text}}
                       </td>
                     </tr>
                     </tbody>
@@ -147,8 +183,8 @@
                       <th>Auteur</th>
                       <th>Langue</th>
                       <th>Status</th>
-                      <th>Score</th>
                       <th>Hashtags associés</th>
+                      <th>Message</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -162,7 +198,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td :title="tweet.user_name">
+                      <td style="width: 200px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -173,13 +209,13 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
-                      <td>
-                        {{tweet.sentiment.confidence_scores.negative + '%'}}
-                      </td>
-                      <td style="text-overflow: ellipsis">
+                      <td style="width: 350px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
                             {{'#' + hashtag.text}}
                         </span>
+                      </td>
+                      <td :title="tweet.text">
+                        {{tweet.text}}
                       </td>
                     </tr>
                     </tbody>
