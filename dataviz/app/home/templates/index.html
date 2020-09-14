@@ -109,7 +109,7 @@
             </div>
             
 
-          <div class="col-12" id="top_positif_view">
+          <div class="col-12" id="top_positive_view">
             <div class="card">
               <div class="card-header bg-green">
                 <h3 class="card-title white maj">TOP 5 POSITIF</h3>
@@ -166,7 +166,7 @@
             </div>
           </div>
 
-          <div id="top_negatif_view" class="col-12">
+          <div id="top_negative_view" class="col-12">
             <div class="card">
               <div class="card-header bg-red">
                 <h3 class="card-title white maj">TOP 5 NEGATIF</h3>
@@ -230,8 +230,8 @@
 
   <script>
     try{
-            result_positif = JSON.parse([[tweets_positif| tojson | safe]]);
-            result_negatif = JSON.parse([[tweets_negatif| tojson | safe]]);
+            result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
+            result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
 
             Vue.filter('formatDate', function(value) {
                 if (value) {
@@ -241,16 +241,16 @@
             });
 
             var app = new Vue({
-                el:'#top_positif_view',
+                el:'#top_positive_view',
                 data: {
-                    tweet_list: result_positif
+                    tweet_list: result_positive
                 }
             });
 
             var app2 = new Vue({
-                el:'#top_negatif_view',
+                el:'#top_negative_view',
                 data: {
-                    tweet_list: result_negatif
+                    tweet_list: result_negative
                 }
             });
 
