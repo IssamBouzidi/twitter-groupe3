@@ -32,15 +32,15 @@ if __name__ == "__main__":
     , resources.ACCESS_TOKEN
     , resources.ACCESS_TOKEN_SECRET).get_tweet_by_product(product_name)
 
-    for tweet in list_tweet:
-        print(tweet.to_json())
-        print("\n")
+    # for tweet in list_tweet:
+    #     print(tweet.to_json())
+    #     print("\n")
 
-    list_response = TweetSentimentPrediction(list_tweet
-            , resources.SUBSCRIPTION_KEY
-            , resources.SENTIMENT_ENDPOINT_URL).predict()
+    # list_response = TweetSentimentPrediction(list_tweet
+    #         , resources.SUBSCRIPTION_KEY
+    #         , resources.SENTIMENT_ENDPOINT_URL).predict()
             
-    print(list_response)
+    # print(list_response)
 
     app.run(host='localhost', port = 8080,use_reloader=False)
     

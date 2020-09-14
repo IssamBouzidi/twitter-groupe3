@@ -134,22 +134,22 @@ class DatabaseManager:
         return self.__get_collection('smart_tweets', 'tweets')
 
 
-    def get_top_positive_tweets(self, filters):
+    def get_top_positive_tweets(self):
         """get the top positives tweets of the dataset
 
         Returns:
             json: top positives tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find(filters).count(5)
+        result = self.__get_collection('smart_tweets', 'tweets').find().sort([("sentiment.confidence_score.positive", 1)]).limit(5)
         return result
 
-    def get_top_negative_tweets(self, filters):
+    def get_top_negative_tweets(self):
         """get the top negative tweets of the dataset
 
         Returns:
             json: top negative tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').requete.count(5)
+        result = self.__get_collection('smart_tweets', 'tweets').find().sort([("sentiment.confidence_score.negative", 1)]).limit(5)
         return result
         
 

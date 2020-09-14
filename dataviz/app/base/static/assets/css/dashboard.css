@@ -9,6 +9,22 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+ .twitter_username {
+    width: 200px; 
+    overflow: hidden; 
+    display: inline-block; 
+    white-space: nowrap; 
+    text-overflow: ellipsis
+}
+ 
+.twitter_hashtag_column {
+    width: 350px; 
+    overflow: hidden; 
+    display: inline-block; 
+    white-space: nowrap; 
+    text-overflow: ellipsis
+}
+
  .white{
     color:white;
 }
