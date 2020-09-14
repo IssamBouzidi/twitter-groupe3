@@ -12,7 +12,14 @@ from bson.json_util import dumps
 
 @blueprint.route('/')
 def route_default():
-    return render_template('index.html')
+    tweets = db.getInstance().get_tweets({})
+    positive = db.getInstance().get_top_positive_tweets({})
+    negative = db.getInstance().get_top_negative_tweets({})
+    json_data = dumps(tweets)
+    json_positive = dumps(positive)
+    json_negative = dumps(negative)
+
+    return render_template('index.html', tweets = json_data, positive_tweets = json_positive, negative_tweets = json_negative)
 
 @blueprint.route('/error-<error>')
 def route_errors(error):
