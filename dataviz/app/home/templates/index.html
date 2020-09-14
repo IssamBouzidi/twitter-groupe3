@@ -63,48 +63,12 @@
                         <h3 class="card-title">Récapitulatif</h3>
                     </div>
                     <div class="card-body">
-                        <div id="chart-pie" style="height: 15rem;"></div>
+                        <div id="chart-pie" style="height: 20rem;">
+							<canvas id="chDonut3"></canvas>
+						 </div>
                     </div>
                     </div>
-                    <script>
-                    require(['c3', 'jquery'], function(c3, $) {
-                        $(document).ready(function(){
-                        var chart = c3.generate({
-                            bindto: '#chart-pie', // id of chart wrapper
-                            data: {
-                            columns: [
-                                // each columns data
-                                ['data1', 32,8],
-                                ['data2', 54,2],
-                                ['data3', 13]
-                            ],
-                            type: 'pie', // default type of chart
-                            colors: {
-                                'data1': tabler.colors["green"],
-                                'data2': tabler.colors["blue"],
-                                'data3': tabler.colors["red"]
-                            },
-                            names: {
-                                // name of each serie
-                                'data1': 'Positif',
-                                'data2': 'Neutre',
-                                'data3': 'Négatif'
-                            }
-                            },
-                            axis: {
-                            },
-                            legend: {
-                                    show: false, //hide legend
-                            },
-                            padding: {
-                            bottom: 0,
-                            top: 0
-                            },
-                        });
-                        });
-                    });
-                    </script>
-                </div>
+                    </div>
                 </div>
             </div>
             
@@ -230,6 +194,40 @@
 
   <script>
     try{
+		/**************   chart pie BEGIN   *******************/
+		// chart colors
+        var colors = ['#cd201f ','#467fcf','#5eba00'];
+
+        /* 3 donut charts */
+        var donutOptions = {
+        cutoutPercentage: 50, 
+        legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+        };
+
+        // donut 3
+        var chDonutData3 = {
+            labels: ['Negative', 'Neutral', 'Positive'],
+            datasets: [
+            {
+                backgroundColor: colors.slice(0,3),
+                borderWidth: 0,
+                data: [333, 333, 333]
+            }
+            ]
+        };
+
+        var chDonut3 = document.getElementById("chDonut3");
+
+        if (chDonut3) {
+        new Chart(chDonut3, {
+            type: 'pie',
+            data: chDonutData3,
+            options: donutOptions
+        });
+        }
+		
+		/**************   chart pie END   *******************/
+  
             result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
             result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
 
