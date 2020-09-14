@@ -8,7 +8,7 @@
 
       <div class="container">
 
-        <div class="row row-cards">
+        <div id="dashboard" class="row row-cards">
           <div class="col-sm-12 col-lg-8">
             <div class="row">
 
@@ -24,9 +24,9 @@
                   <div class="card">
                     <div class="card-body text-center">
                       <div class="h5">Réactions positives</div>
-                      <div class="display-4 font-weight-bold mb-4">328</div>
+                      <div class="display-4 font-weight-bold mb-4">{{number_positive}}</div>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-green" style="width: 33%"></div>
+                        <div class="progress-bar bg-green" :style="{ width: number_positive + '%' }"></div>
                       </div>
                     </div>
                   </div>
@@ -35,9 +35,9 @@
                     <div class="card">
                     <div class="card-body text-center">
                         <div class="h5">Réactions neutres</div>
-                        <div class="display-4 font-weight-bold mb-4">542</div>
+                        <div class="display-4 font-weight-bold mb-4">{{number_neutral}}</div>
                         <div class="progress progress-sm">
-                        <div class="progress-bar bg-blue" style="width: 54%"></div>
+                        <div class="progress-bar bg-blue" :style="{ width: number_neutral + '%' }"></div>
                         </div>
                     </div>
                     </div>
@@ -46,9 +46,9 @@
                     <div class="card">
                     <div class="card-body text-center">
                         <div class="h5">Réactions négatives</div>
-                        <div class="display-4 font-weight-bold mb-4">130</div>
+                        <div class="display-4 font-weight-bold mb-4">{{number_negative}}</div>
                         <div class="progress progress-sm">
-                        <div class="progress-bar bg-red" style="width: 13%"></div>
+                        <div class="progress-bar bg-red" :style="{ width: number_negative + '%' }"></div>
                         </div>
                     </div>
                     </div>
@@ -76,13 +76,13 @@
           <div class="col-12" id="top_positive_view">
             <div class="card">
               <div class="card-header bg-green">
-                <h3 class="card-title white maj">TOP 5 POSITIF</h3>
+                <h3 class="card-title white maj">TOP 5 POSITIFS</h3>
               </div>
               <div class="table-responsive">
                 <table class="table table-striped table-hover card-table table-vcenter text-nowrap datatable">
                   <thead>
                     <tr>
-                      <th class="w-1">No.</th>
+                      <th>Voir</th>
                       <th>Date</th>
                       <th>Auteur</th>
                       <th>Langue</th>
@@ -93,9 +93,12 @@
                   </thead>
                   <tbody>
                     <tr v-for="(tweet, rindex) in tweet_list">
-                      <td><span class="text-muted">
-                        <a :href="'/tweet?id=' + tweet.tweet_id" >{{tweet.tweet_id}}</a>
-                        </span></td>
+                      <td>
+                            <a :href="'/tweet?id=' + tweet.tweet_id" >
+                                <img src="/static/assets/images/search.png">
+                                </img>
+                            </a>
+                      </td>
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
@@ -133,13 +136,13 @@
           <div id="top_negative_view" class="col-12">
             <div class="card">
               <div class="card-header bg-red">
-                <h3 class="card-title white maj">TOP 5 NEGATIF</h3>
+                <h3 class="card-title white maj">TOP 5 NEGATIFS</h3>
               </div>
               <div class="table-responsive">
                 <table class="table table-striped table-hover card-table table-vcenter text-nowrap datatable">
                   <thead>
                     <tr>
-                      <th class="w-1">No.</th>
+                      <th>Voir</th>
                       <th>Date</th>
                       <th>Auteur</th>
                       <th>Langue</th>
@@ -150,9 +153,12 @@
                   </thead>
                   <tbody>
                     <tr v-for="(tweet, rindex) in tweet_list">
-                      <td><span class="text-muted">
-                        <a :href="'/tweet?id=' + tweet.tweet_id" >{{tweet.tweet_id}}</a>
-                        </span></td>
+                      <td>
+                            <a :href="'/tweet?id=' + tweet.tweet_id" >
+                                <img src="/static/assets/images/search.png">
+                                </img>
+                            </a>
+                      </td>
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
@@ -204,6 +210,10 @@
         legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
         };
 
+        count_positive = 20;
+        count_negative = 30;
+        count_neutral = 50;
+
         // donut 3
         var chDonutData3 = {
             labels: ['Negative', 'Neutral', 'Positive'],
@@ -211,7 +221,7 @@
             {
                 backgroundColor: colors.slice(0,3),
                 borderWidth: 0,
-                data: [333, 333, 333]
+                data: [count_negative, count_neutral, count_positive]
             }
             ]
         };
@@ -249,6 +259,15 @@
                 el:'#top_negative_view',
                 data: {
                     tweet_list: result_negative
+                }
+            });
+
+            var dashboard = new Vue({
+                el:'#dashboard',
+                data: {
+                    number_positive: count_positive,
+                    number_negative: count_negative,
+                    number_neutral: count_neutral
                 }
             });
 
