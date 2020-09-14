@@ -43,19 +43,9 @@ class TweetCollection:
                                     #, lang="en"
                                     , include_entities=True
                                     , result_type='recent'
-                                    , count =5):
-            #print(tweet)
-            '''
-            print(f"user screen name: {tweet.user.screen_name}")
-            print("user name: ",tweet.user.name)
-            print("user location:", tweet.user.location)
-            print("user description: ", tweet.user.description)
-            print("tweet id:", tweet.id)
-            print("entities: ",tweet.entities)
-            print("text: ", tweet.text)
-            print("created at: ", tweet.created_at)
-            #print(tweet.direct_message)
-            '''
+                                    , count = 200
+                                   ):
+
             list_tweet.append(SentTweet(str(tweet.id)
                                     , tweet.text
                                     , tweet.user.name
@@ -102,24 +92,74 @@ class TweetSentimentPrediction:
 
 
     def create_documents(self):
-        
+        """
+        ["documents": []
+        , "documents" : []]
+        """
+        """
         list_document = []
+        
+
         for tweet in self.list_tweet:
             list_document.append(tweet.to_json_azure())
         
         return {"documents": list_document}
 
+        """
+
+        list_documents = []
+        documents = []
+        start = 0
+        end = 0
+        c_tweet = len(self.list_tweet)
+
+        if (c_tweet <= end):
+            for tweet in self.list_tweet:
+                documents.append(tweet.to_json_azure())
+                list_documents.append({"documents" : documents})
+        else: # number of tweet is greater 10
+            while (end < c_tweet):
+                
+                start = end
+                end += 10
+                documents = []
+
+                if (end > c_tweet):
+                    end = c_tweet
+
+                for tweet in self.list_tweet[start:end]:
+                    documents.append(tweet.to_json_azure())
+
+                list_documents.append({"documents" : documents})
+    
+
+
+                """
+                if (end > c_tweet):
+                    end = c_tweet   
+                """
+                
+        
+        return list_documents
+
+        
 
     def predict(self):
         """
         return a List <SentTweet> with sentiment updated
         """
+        # send 10 documents maixum to the Azure server
+        list_documents = self.create_documents()
+        list_repsonse = []
+        for documents in list_documents:
+            response = requests.post(self.endpoint_url
+                                , headers=self.get_header()
+                                , json=documents)
+            jsresponse =  response.json()
+            for value in jsresponse['documents']:
+                list_repsonse.append(value)
 
-        documents = self.create_documents()
-        response = requests.post(self.endpoint_url, headers=self.get_header(), json=documents)
-        jsresponse =  response.json()
-
-        for tweet, resp in zip(self.list_tweet, jsresponse['documents']):
+        for tweet, resp in zip(self.list_tweet, list_repsonse):
             tweet.update_sentiment(self.get_sentiment(resp))
         
         return self.list_tweet
