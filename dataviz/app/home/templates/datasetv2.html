@@ -6,7 +6,7 @@
 
     <div class="my-3 my-md-5">
         <div class="container" style="margin: 0;max-width: 100%;overflow: auto;">
-            <div id="tweet_view" class="col-12">
+            <div id="dataset_view" class="col-12">
                 <div class="card">
                   <div class="card-header">
                     <h3 class="card-title">Tous les tweets</h3>
@@ -15,7 +15,7 @@
                 <table class="table table-striped table-hover card-table table-vcenter text-nowrap datatable">
                   <thead>
                     <tr>
-                      <th class="w-1">No.</th>
+                      <th class="w-1">Voir</th>
                       <th>Date</th>
                       <th>Auteur</th>
                       <th>Langue</th>
@@ -27,7 +27,10 @@
                   <tbody>
                     <tr v-for="(tweet, rindex) in tweet_list">
                       <td><span class="text-muted">
-                        <a :href="'/tweet?id=' + tweet.tweet_id" >{{tweet.tweet_id}}</a>
+                        <a :href="'/tweet?id=' + tweet.tweet_id" >
+                            <img src="/static/assets/images/search.png">
+                            </img>
+                        </a>
                         </span></td>
                       <td>
                           {{tweet.created_at.$date| formatDate}}
@@ -77,13 +80,11 @@
                 });
 
                 var app = new Vue({
-                    el:'#tweet_view',
+                    el:'#dataset_view',
                     data: {
                         tweet_list: result
                     }
                 });
-
-                
             } 
             catch (error) {
                 alert(error);

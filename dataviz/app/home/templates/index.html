@@ -63,7 +63,9 @@
                         <h3 class="card-title">Récapitulatif</h3>
                     </div>
                     <div class="card-body">
-                        <div id="chart-pie" style="height: 15rem;"></div>
+                        <div id="chart-pie" style="height: 20rem;">
+                            <canvas id="chDonut3"></canvas>
+                        </div>
                     </div>
                     </div>
                     <script>
@@ -509,6 +511,38 @@
     </div>
 
   </div>
+  <script>
+        // chart colors
+        var colors = ['#cd201f ','#467fcf','#5eba00'];
+
+        /* 3 donut charts */
+        var donutOptions = {
+        cutoutPercentage: 50, 
+        legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+        };
+
+        // donut 3
+        var chDonutData3 = {
+            labels: ['Negative', 'Neutral', 'Positive'],
+            datasets: [
+            {
+                backgroundColor: colors.slice(0,3),
+                borderWidth: 0,
+                data: [33, 33, 33]
+            }
+            ]
+        };
+
+        var chDonut3 = document.getElementById("chDonut3");
+
+        if (chDonut3) {
+        new Chart(chDonut3, {
+            type: 'pie',
+            data: chDonutData3,
+            options: donutOptions
+        });
+        }
+  </script>
 
 {% endblock content %}
 
