@@ -15,7 +15,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                       <div class="card-body d-flex flex-column">
-                        <h4><a href="https://twitter.com/search?q=%23xboxseriess&src=typeahead_click"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
+                        <h4><a href="/dataset"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
                         <div class="text-muted">{{ hashtags }} liste des hashtag #jemlepoulet #troplol #tartiflette #saucisse #onseclate</div>
                       </div>
                     </div>
@@ -73,7 +73,7 @@
             </div>
             
 
-          <div class="col-12" id="top_positive_view">
+          <div class="col-12">
             <div class="card">
               <div class="card-header bg-green">
                 <h3 class="card-title white maj">TOP 5 POSITIFS</h3>
@@ -92,7 +92,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(tweet, rindex) in tweet_list">
+                    <tr v-for="(tweet, rindex) in tweet_list_positive">
                       <td>
                             <a :href="'/tweet?id=' + tweet.tweet_id" >
                                 <img src="/static/assets/images/search.png">
@@ -152,7 +152,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(tweet, rindex) in tweet_list">
+                    <tr v-for="(tweet, rindex) in tweet_list_negative">
                       <td>
                             <a :href="'/tweet?id=' + tweet.tweet_id" >
                                 <img src="/static/assets/images/search.png">
@@ -210,9 +210,17 @@
         legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
         };
 
+        result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
+        result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
+        count_tweets = 666;
         count_positive = 20;
         count_negative = 30;
         count_neutral = 50;
+        // alert([[count_tweets]]);
+        // alert([[count_positive]]);
+        // alert([[count_negative]]);
+        // alert([[count_neutral]]);
+
 
         // donut 3
         var chDonutData3 = {
@@ -237,9 +245,6 @@
         }
 		
 		/**************   chart pie END   *******************/
-  
-            result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
-            result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
 
             Vue.filter('formatDate', function(value) {
                 if (value) {
@@ -248,26 +253,15 @@
                 }
             });
 
-            var app = new Vue({
-                el:'#top_positive_view',
-                data: {
-                    tweet_list: result_positive
-                }
-            });
-
-            var app2 = new Vue({
-                el:'#top_negative_view',
-                data: {
-                    tweet_list: result_negative
-                }
-            });
-
             var dashboard = new Vue({
                 el:'#dashboard',
                 data: {
+                    tweet_list_negative: result_negative,
+                    tweet_list_positive: result_positive,
                     number_positive: count_positive,
                     number_negative: count_negative,
-                    number_neutral: count_neutral
+                    number_neutral: count_neutral,
+                    nombre: count_tweets
                 }
             });
 

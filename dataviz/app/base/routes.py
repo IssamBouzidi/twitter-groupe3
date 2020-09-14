@@ -19,7 +19,15 @@ def route_default():
     json_positive = dumps(positive)
     json_negative = dumps(negative)
 
-    return render_template('index.html', tweets = json_data, positive_tweets = json_positive, negative_tweets = json_negative)
+    return render_template('index.html', 
+        tweets = json_data, 
+        positive_tweets = json_positive, 
+        negative_tweets = json_negative,         
+        count_tweets = 666,
+        count_positive = 20,
+        count_negative = 30,
+        count_neutral = 50
+        )
 
 @blueprint.route('/error-<error>')
 def route_errors(error):
