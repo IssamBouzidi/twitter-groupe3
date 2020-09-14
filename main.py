@@ -50,6 +50,7 @@ if __name__ == "__main__":
         list_json.append(tweet.to_json())
 
 
+
     mongo_instance = DatabaseManager(resources.MONGODB_USER
                                     , resources.MONGODB_PASSWORD
                                     , resources.MONGODB_SERVER)
