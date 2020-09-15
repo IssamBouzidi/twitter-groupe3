@@ -18,15 +18,20 @@ def route_default():
     json_data = dumps(tweets)
     json_positive = dumps(positive)
     json_negative = dumps(negative)
+    total_tweets=db.getInstance().get_number_of_tweets()
+    number_positive=db.getInstance().get_number_of_tweets_by_range("positive")
+    number_neutral=db.getInstance().get_number_of_tweets_by_range("neutral")
+    number_negative=db.getInstance().get_number_of_tweets_by_range("negative")
+
 
     return render_template('index.html', 
         tweets = json_data, 
         positive_tweets = json_positive, 
         negative_tweets = json_negative,         
-        count_tweets = 666,
-        count_positive = 20,
-        count_negative = 30,
-        count_neutral = 50
+        count_tweets = total_tweets,
+        count_positive = number_positive,
+        count_negative = number_negative,
+        count_neutral = number_neutral
         )
 
 @blueprint.route('/error-<error>')

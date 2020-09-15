@@ -128,7 +128,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(tweet, rindex) in tweet_list_negative">
+                    <tr v-for="(tweet, rindex) in tweet_list_positive">
                       <td>
                             <a :href="'/tweet?id=' + tweet.tweet_id" >
                                 <img src="/static/assets/images/search.png">
@@ -150,7 +150,7 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
                       <td>
-                        {{tweet.sentiment.confidence_scores.positive + '%'}}
+                        {{tweet.sentiment.confidence_scores.positive * 100 + '%'}}
                       </td>
                       <td style="text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
@@ -210,7 +210,7 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
                       <td>
-                        {{tweet.sentiment.confidence_scores.negative + '%'}}
+                        {{tweet.sentiment.confidence_scores.negative * 100 + '%'}}
                       </td>
                       <td style="text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
