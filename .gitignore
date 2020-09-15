@@ -1,2 +1,4 @@
 /error.log
 /database/__pycache__
+/batch/xbox_tweet.json
+/batch/xbox_tweet_sentiment.json
