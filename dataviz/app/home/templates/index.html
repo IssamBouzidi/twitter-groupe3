@@ -16,7 +16,7 @@
                     <div class="card">
                       <div class="card-body d-flex flex-column">
                         <h4><a href="/dataset"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
-                        <div class="text-muted">{{ hashtags }} liste des hashtag #jemlepoulet #troplol #tartiflette #saucisse #onseclate</div>
+                        <div class="text-muted">{{ hashtags }}</div>
                       </div>
                     </div>
                 </div>
@@ -123,12 +123,12 @@
                       <th>Auteur</th>
                       <th>Langue</th>
                       <th>Status</th>
+                      <th>score</th>
                       <th>Hashtags associés</th>
-                      <th>Message</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(tweet, rindex) in tweet_list_positive">
+                    <tr v-for="(tweet, rindex) in tweet_list_negative">
                       <td>
                             <a :href="'/tweet?id=' + tweet.tweet_id" >
                                 <img src="/static/assets/images/search.png">
@@ -138,7 +138,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td style="width: 200px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis" :title="tweet.user_name">
+                      <td class="twitter_username" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -149,13 +149,13 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
-                      <td style="width: 350px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis">
-                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
+                      <td>
+                        {{tweet.sentiment.confidence_scores.positive + '%'}}
+                      </td>
+                      <td style="text-overflow: ellipsis">
+                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
                             {{'#' + hashtag.text}}
                         </span>
-                      </td>
-                      <td :title="tweet.text">
-                        {{tweet.text}}
                       </td>
                     </tr>
                     </tbody>
@@ -183,8 +183,8 @@
                       <th>Auteur</th>
                       <th>Langue</th>
                       <th>Status</th>
+                      <th>score</th>
                       <th>Hashtags associés</th>
-                      <th>Message</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -198,7 +198,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td style="width: 200px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis" :title="tweet.user_name">
+                      <td class="twitter_username" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -209,13 +209,13 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'positive'" class="status-icon bg-green"></span> {{tweet.sentiment.sentiment_score}}
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
-                      <td style="width: 350px; overflow: hidden; display: inline-block; white-space: nowrap; text-overflow: ellipsis">
-                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf; font-weight: bold;">
+                      <td>
+                        {{tweet.sentiment.confidence_scores.negative + '%'}}
+                      </td>
+                      <td style="text-overflow: ellipsis">
+                        <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
                             {{'#' + hashtag.text}}
                         </span>
-                      </td>
-                      <td :title="tweet.text">
-                        {{tweet.text}}
                       </td>
                     </tr>
                     </tbody>
@@ -252,6 +252,7 @@
         count_positive = 20;
         count_negative = 30;
         count_neutral = 50;
+        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"]
         // alert([[count_tweets]]);
         // alert([[count_positive]]);
         // alert([[count_negative]]);
@@ -297,7 +298,8 @@
                     number_positive: count_positive,
                     number_negative: count_negative,
                     number_neutral: count_neutral,
-                    nombre: count_tweets
+                    nombre: count_tweets,
+                    hashtags: hashtag_list
                 }
             });
 
