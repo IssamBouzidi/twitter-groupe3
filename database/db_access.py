@@ -175,7 +175,29 @@ class DatabaseManager:
         return result
 
 
+    def get_top_hashtags(self):
+        """Get the most quoted hashtags.
 
+        Returns:
+            list
+        """
+        mylist = []
+
+        dict_tag = {}
+        for tweet in self.get_tweets({}):
+            list_tag = tweet['entities']['hashtags']
+            for tag in list_tag:
+                text = tag['text']
+                if (not text in dict_tag):
+                    dict_tag[text] = 1
+                else:
+                    dict_tag[text] += 1
+        
+        dict_tag = sorted(dict_tag.items(), key=lambda x: x[1], reverse=True)
+        for key, v in dict_tag[:10]:
+            mylist.append(key)
+
+        return mylist
     
 
     
