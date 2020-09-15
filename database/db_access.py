@@ -140,7 +140,7 @@ class DatabaseManager:
         Returns:
             json: top positives tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_score.positive", 1)]).limit(5)
+        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_scores.positive", -1)]).limit(5)
         return result
 
     def get_top_negative_tweets(self, filters):
@@ -149,10 +149,30 @@ class DatabaseManager:
         Returns:
             json: top negative tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_score.negative", 1)]).limit(5)
+        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_scores.negative", -1)]).limit(5)
         return result
         
+    def get_number_of_tweets(self):
+        """get the total nomber of tweets.
 
+        Returns:
+            int: value
+        """
+        result = self.__get_collection('smart_tweets', 'tweets').count()
+        return result
+
+    def get_number_of_tweets_by_range(self, range):
+        """Get the number of tweets for the selected range
+
+        Args:
+            str: positive, negative or neutral
+
+        Returns:
+            int: value
+
+        """
+        result = self.__get_collection('smart_tweets', 'tweets').find({"sentiment.sentiment_score" : range}).count()
+        return result
 
 
 

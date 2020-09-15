@@ -26,7 +26,7 @@
                       <div class="h5">Réactions positives</div>
                       <div class="display-4 font-weight-bold mb-4">{{number_positive}}</div>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-green" :style="{ width: number_positive + '%' }"></div>
+                        <div class="progress-bar bg-green" :style="{ width: number_positive*100/nombre + '%' }"></div>
                       </div>
                     </div>
                   </div>
@@ -37,7 +37,7 @@
                         <div class="h5">Réactions neutres</div>
                         <div class="display-4 font-weight-bold mb-4">{{number_neutral}}</div>
                         <div class="progress progress-sm">
-                        <div class="progress-bar bg-blue" :style="{ width: number_neutral + '%' }"></div>
+                        <div class="progress-bar bg-blue" :style="{ width: number_neutral*100/nombre + '%' }"></div>
                         </div>
                     </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="h5">Réactions négatives</div>
                         <div class="display-4 font-weight-bold mb-4">{{number_negative}}</div>
                         <div class="progress progress-sm">
-                        <div class="progress-bar bg-red" :style="{ width: number_negative + '%' }"></div>
+                        <div class="progress-bar bg-red" :style="{ width: number_negative*100/nombre + '%' }"></div>
                         </div>
                     </div>
                     </div>
@@ -72,7 +72,10 @@
                 </div>
             </div>
             
-
+            <div class="col-12" style="background-color: red;">
+                TI DIEM DIIIVVVVVVVVVVVVVVVVV!!!!!!!!!!!
+                <img src="" style="height: 100px; width: 1500px"/>
+            </div>
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-green">
@@ -92,7 +95,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(tweet, rindex) in tweet_list_negative">
+                    <tr v-for="(tweet, rindex) in tweet_list_positive">
                       <td>
                             <a :href="'/tweet?id=' + tweet.tweet_id" >
                                 <img src="/static/assets/images/search.png">
@@ -102,7 +105,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td class="twitter_username" :title="tweet.user_name">
+                      <td style="width: 250px; overflow: hidden; text-overflow: ellipsis" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -114,9 +117,9 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
                       <td>
-                        {{tweet.sentiment.confidence_scores.positive + '%'}}
+                        {{tweet.sentiment.confidence_scores.positive * 100 + '%'}}
                       </td>
-                      <td style="text-overflow: ellipsis">
+                      <td style="width: 350px; overflow: hidden; text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
                             {{'#' + hashtag.text}}
                         </span>
@@ -157,7 +160,7 @@
                       <td>
                           {{tweet.created_at.$date| formatDate}}
                       </td>
-                      <td class="twitter_username" :title="tweet.user_name">
+                      <td style="width: 250px; overflow: hidden; text-overflow: ellipsis" :title="tweet.user_name">
                         {{tweet.user_name}}
                       </td>
                       <td>
@@ -169,9 +172,9 @@
                             <span v-else-if="tweet.sentiment.sentiment_score == 'neutral'" class="status-icon bg-blue"></span> {{tweet.sentiment.sentiment_score}}
                       </td>
                       <td>
-                        {{tweet.sentiment.confidence_scores.negative + '%'}}
+                        {{tweet.sentiment.confidence_scores.negative * 100 + '%'}}
                       </td>
-                      <td style="text-overflow: ellipsis">
+                      <td style="width: 350px; overflow: hidden; text-overflow: ellipsis">
                         <span v-for="(hashtag, rindex) in tweet.entities.hashtags" style="color: #467fcf!important; font-weight: bold!important;">
                             {{'#' + hashtag.text}}
                         </span>
@@ -179,11 +182,11 @@
                     </tr>
                     </tbody>
                     </table>
-                    <script>
+                    <!-- <script>
                       require(['datatables', 'jquery'], function(datatable, $) {
                             $('.datatable').DataTable();
                           });
-                    </script>
+                    </script> -->
                   </div>
             </div>
           </div>
@@ -196,12 +199,11 @@
   <script>
         result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
         result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
-        count_tweets = 666;
-        count_positive = 20;
-        count_negative = 30;
-        count_neutral = 50;
-        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"];
+        positive = [[count_positive]];
+        neutral = [[count_neutral]];
+        negative =  [[count_negative]];
 
+        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"];
     try{
 		    Vue.filter('formatDate', function(value) {
                 if (value) {
@@ -215,10 +217,10 @@
                 data: {
                     tweet_list_negative: result_negative,
                     tweet_list_positive: result_positive,
-                    number_positive: count_positive,
-                    number_negative: count_negative,
-                    number_neutral: count_neutral,
-                    nombre: count_tweets,
+                    number_positive: positive,
+                    number_negative: negative,
+                    number_neutral: neutral,
+                    nombre: [[count_tweets]],
                     hashtags: hashtag_list
                 }
             });
@@ -239,13 +241,13 @@
 
         // donut 3
         var chDonutData3 = {
-            labels: ['Negative', 'Neutral', 'Positive'],
-            datasets: [
-            {
-                backgroundColor: colors.slice(0,3),
-                borderWidth: 0,
-                data: [count_negative, count_neutral, count_positive]
-            }
+                        labels: ['Negative', 'Neutral', 'Positive'],
+                        datasets: [
+                        {
+                            backgroundColor: colors.slice(0,3),
+                            borderWidth: 0,
+                            data: [positive,neutral,negative]
+                        }
             ]
         };
 
