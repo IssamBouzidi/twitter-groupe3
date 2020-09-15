@@ -59,56 +59,20 @@
                 <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Récapitulatif</h3>
-                    </div>
                     <div class="card-body">
-                        <div id="chart-pie" style="height: 15rem;"></div>
+                        <div id="chart-pie" style="height: 20rem;">
+							<canvas id="chDonut3"></canvas>
+						 </div>
                     </div>
                     </div>
-                    <script>
-                    require(['c3', 'jquery'], function(c3, $) {
-                        $(document).ready(function(){
-                        var chart = c3.generate({
-                            bindto: '#chart-pie', // id of chart wrapper
-                            data: {
-                            columns: [
-                                // each columns data
-                                ['data1', 32,8],
-                                ['data2', 54,2],
-                                ['data3', 13]
-                            ],
-                            type: 'pie', // default type of chart
-                            colors: {
-                                'data1': tabler.colors["green"],
-                                'data2': tabler.colors["blue"],
-                                'data3': tabler.colors["red"]
-                            },
-                            names: {
-                                // name of each serie
-                                'data1': 'Positif',
-                                'data2': 'Neutre',
-                                'data3': 'Négatif'
-                            }
-                            },
-                            axis: {
-                            },
-                            legend: {
-                                    show: false, //hide legend
-                            },
-                            padding: {
-                            bottom: 0,
-                            top: 0
-                            },
-                        });
-                        });
-                    });
-                    </script>
                 </div>
                 </div>
             </div>
             
-
+            <div class="col-12" style="background-color: red;">
+                TI DIEM DIIIVVVVVVVVVVVVVVVVV!!!!!!!!!!!
+                <img src="" style="height: 100px; width: 1500px"/>
+            </div>
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-green">
@@ -160,11 +124,6 @@
                     </tr>
                     </tbody>
                     </table>
-                    <!-- <script>
-                      require(['datatables', 'jquery'], function(datatable, $) {
-                            $('.datatable').DataTable();
-                          });
-                    </script> -->
                   </div>
             </div>
           </div>
@@ -220,11 +179,11 @@
                     </tr>
                     </tbody>
                     </table>
-                    <script>
+                    <!-- <script>
                       require(['datatables', 'jquery'], function(datatable, $) {
                             $('.datatable').DataTable();
                           });
-                    </script>
+                    </script> -->
                   </div>
             </div>
           </div>
@@ -235,17 +194,6 @@
   </div>
 
   <script>
-    try{
-		/**************   chart pie BEGIN   *******************/
-		// chart colors
-        var colors = ['#cd201f ','#467fcf','#5eba00'];
-
-        /* 3 donut charts */
-        var donutOptions = {
-        cutoutPercentage: 50, 
-        legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
-        };
-
         result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
         result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
         result_count_tweets = [[count_tweets]];
@@ -268,17 +216,9 @@
 
         var chDonut3 = document.getElementById("chDonut3");
 
-        if (chDonut3) {
-        new Chart(chDonut3, {
-            type: 'pie',
-            data: chDonutData3,
-            options: donutOptions
-        });
-        }
-		
-		/**************   chart pie END   *******************/
-
-            Vue.filter('formatDate', function(value) {
+        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"];
+    try{
+		    Vue.filter('formatDate', function(value) {
                 if (value) {
                     var date = new Date(value);
                     return date.toLocaleString();
@@ -290,19 +230,51 @@
                 data: {
                     tweet_list_negative: result_negative,
                     tweet_list_positive: result_positive,
-                    number_positive: result_count_positive,
-                    number_negative: result_count_negative,
-                    number_neutral: result_count_neutral,
-                    nombre: result_count_tweets,
+                    number_positive: positive,
+                    number_negative: negative,
+                    number_neutral: neutral,
+                    nombre: [[count_tweets]],
                     hashtags: hashtag_list
                 }
             });
-
-            
         } 
         catch (error) {
             alert(error);
         }
+
+        /**************   chart pie BEGIN   *******************/
+		// chart colors
+        var colors = ['#cd201f ','#467fcf','#5eba00'];
+
+        /* 3 donut charts */
+        var donutOptions = {
+        cutoutPercentage: 50, 
+        legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+        };
+
+        // donut 3
+        var chDonutData3 = {
+                        labels: ['Negative', 'Neutral', 'Positive'],
+                        datasets: [
+                        {
+                            backgroundColor: colors.slice(0,3),
+                            borderWidth: 0,
+                            data: [positive,neutral,negative]
+                        }
+            ]
+        };
+
+        var chDonut3 = document.getElementById("chDonut3");
+
+        if (chDonut3) {
+            new Chart(chDonut3, {
+                type: 'pie',
+                data: chDonutData3,
+                options: donutOptions
+            });
+        }
+		
+		/**************   chart pie END   *******************/
 </script>
 
 {% endblock content %}
