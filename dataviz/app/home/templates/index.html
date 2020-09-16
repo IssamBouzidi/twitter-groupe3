@@ -16,7 +16,10 @@
                     <div class="card">
                       <div class="card-body d-flex flex-column">
                         <h4><a href="/dataset"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
-                        <div class="text-muted">{{ hashtags }}</div>
+                        <div class="text-muted">
+                            <span v-for="(hashtag, rindex) in hashtags">
+                                {{'#' + hashtag }}
+                            </span> </div>
                       </div>
                     </div>
                 </div>
@@ -69,9 +72,15 @@
                 </div>
             </div>
             
-            <div class="col-12" style="background-color: red;">
-                <img src="/static/assets/images/timeseries.png" style="height: 400px; width: 1500px"/>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title maj">Répartition des tweets dans le temps</h3>
+                    </div>
+                    <img src="/static/assets/images/timeseries.png" style="height: 400px; width: 1500px"/>
+                </div>
             </div>
+
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-green">
