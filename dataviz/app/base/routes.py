@@ -20,7 +20,7 @@ def route_default():
     number_positive = db.getInstance().get_number_of_tweets_by_range("positive")
     number_neutral = db.getInstance().get_number_of_tweets_by_range("neutral")
     number_negative = db.getInstance().get_number_of_tweets_by_range("negative")
-    listetags = db.getInstance().get_top_hashtags()
+    listetags = db.getInstance().get_top_hashtags(20)
 
 
     return render_template('index.html', 

@@ -174,31 +174,34 @@ class DatabaseManager:
         result = self.__get_collection('smart_tweets', 'tweets').find({"sentiment.sentiment_score" : range}).count()
         return result
 
-
-    def get_top_hashtags(self):
+    def get_top_hashtags(self, nb_hashtags):
         """Get the most quoted hashtags.
 
         Returns:
             list
         """
-        mylist = []
 
-        dict_tag = {}
-        for tweet in self.get_tweets({}):
-            list_tag = tweet['entities']['hashtags']
-            for tag in list_tag:
-                text = tag['text']
-                if (not text in dict_tag):
-                    dict_tag[text] = 1
-                else:
-                    dict_tag[text] += 1
-        
-        dict_tag = sorted(dict_tag.items(), key=lambda x: x[1], reverse=True)
-        for key, v in dict_tag[:10]:
-            mylist.append(key)
+        hashtags_list= self.__get_collection('smart_tweets', 'tweets').aggregate([
+            { "$project": {
+                "_id": 0,
+                "entities.hashtags" : 1
+            }},
+            { "$unwind": "$entities.hashtags" },
+            { "$group" : {
+                    "_id": "$entities.hashtags.text",
+                    "count": { "$sum" : 1 }
+                    }
+            },
+            { "$sort" : {
+                "count" : -1
+                }
+            },
+            { "$limit": nb_hashtags }
+        ])
 
-        return mylist
-    
+        results = []
+        for hashtag in hashtags_list:
+            results.append(hashtag.get('_id'))
 
-    
+        return results
 
