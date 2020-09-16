@@ -193,29 +193,13 @@
   </div>
 
   <script>
-        result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
-        result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
-        result_count_tweets = [[count_tweets]];
-        result_count_positive = [[count_positive]];
-        result_count_negative = [[count_negative]];
-        result_count_neutral = [[count_neutral]];
-        hashtag_list=[[tags]];
 
-        // donut 3
-        var chDonutData3 = {
-            labels: ['Negative', 'Neutral', 'Positive'],
-            datasets: [
-            {
-                backgroundColor: colors.slice(0,3),
-                borderWidth: 0,
-                data: [result_count_negative, result_count_neutral, result_count_positive]
-            }
-            ]
-        };
+        var result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
+        var result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
+        var positive = [[count_positive]];
+        var neutral = [[count_neutral]];
+        var negative =  [[count_negative]];
 
-        var chDonut3 = document.getElementById("chDonut3");
-
-        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"];
     try{
 		    Vue.filter('formatDate', function(value) {
                 if (value) {
@@ -233,7 +217,7 @@
                     number_negative: negative,
                     number_neutral: neutral,
                     nombre: [[count_tweets]],
-                    hashtags: hashtag_list
+                    hashtags: [[hash | safe ]]
                 }
             });
         } 
@@ -259,8 +243,7 @@
                             backgroundColor: colors.slice(0,3),
                             borderWidth: 0,
                             data: [positive,neutral,negative]
-                        }
-            ]
+                        }]
         };
 
         var chDonut3 = document.getElementById("chDonut3");
