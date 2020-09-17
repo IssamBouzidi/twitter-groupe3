@@ -1,17 +1,17 @@
 
 # twitter-groupe3
-Réalisation du brief Smart tweet
-
+Realization of the Smart tweet brief  </br>
+![](/mainpage.PNG)
 
 ### Installation
-- tweepy
-- pymongo
+- pip install requirements.txt
 
 ### Project structure
 
-/resources.py: contains the key authentication of Azure API and Tweet API
+**/configuration**
+- resources.py: contains the key authentication of Azure API and Tweet API
 
-/database
+**/database**
 - db_access.py : python code files for database manipulation.
 	Provide connection to the database with some methods:
 	
@@ -34,15 +34,17 @@ Réalisation du brief Smart tweet
     })
     ```
 
-/dataviz
+**/dataviz**
 - SQL code
 - Python code for dashboard visulization
 
-/datatweet
-- Python code for tweet data management
-- Python code for sentiment score retrieving
+**/datatweet**: contains python classes that collect tweets with Twitter API and predict their sentiments with Azure API
+- tweet_manager.py
+	- TweetCollection class: retreive most recent tweets
+	- TweetSentimentPrediction class: send tweets to Azure in order to obtain their sentiment score and the confidence scores
+	- TweetLoader class: prepare the the availability of database by calling TweetCollection and TweetSentimentPrediction and create the time series chart 
+- tweet.py: an python object who transforms python object into json
 
-/Dashboard : contains the local website structure and templates.
 
 ### Launch
-- /Dashboard: run.py
+- python main.py
