@@ -1,2 +1,4 @@
 /error.log
 /database/__pycache__
+/datatweet/__pycache__
+/configuration/__pycache__

@@ -46,7 +46,7 @@ class DatabaseManager:
         Returns:
             bool : True if insertion succeed else False
         """
-        result = self.__get_collection('smart_tweets', 'tweets').insert_one(tweet)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').insert_one(tweet)
         return result.acknowledged
         
     def add_many_tweets(self, tweets):
@@ -60,7 +60,10 @@ class DatabaseManager:
         """
         result = True
         for tweet in tweets:
-            result &= self.add_one_tweet(tweet)
+            tweet_id = tweet["tweet_id"]
+            # add tweet if tweet is not existed in the database yet
+            if(self.get_tweet_by_id(tweet_id) == None):
+                result &= self.add_one_tweet(tweet)
         return result
 
     def get_tweet_by_id(self, id):
@@ -72,7 +75,7 @@ class DatabaseManager:
         Returns:
             json: the enhanced tweet
         """
-        return self.__get_collection('smart_tweets', 'tweets').find_one({'tweet_id': id})
+        return self.__get_collection('smart_tweets', 'tweets_prod').find_one({'tweet_id': id})
 
     def get_tweets(self, filters):
         """get tweets by filter
@@ -84,7 +87,19 @@ class DatabaseManager:
         Returns:
             json[]: list of enhanced tweets
         """
-        return self.__get_collection('smart_tweets', 'tweets').find(filters)
+        return self.__get_collection('smart_tweets', 'tweets_prod').find(filters)
+
+    def get_tweets_paginated(self, page, nb_elements):
+        result=  self.__get_collection('smart_tweets', 'tweets_prod').aggregate([
+                                                { "$sort" : {
+                                                    "created_at" : -1
+                                                    }
+                                                },
+                                                { "$skip" : page*nb_elements },
+                                                { "$limit": nb_elements }
+                                    ])
+
+        return result
 
     def update_tweet_by_id(self, id, data):
         """Update a tweet by its id
@@ -96,7 +111,7 @@ class DatabaseManager:
         Returns:
             bool: True if one tweet updated else false
         """
-        result = self.__get_collection('smart_tweets', 'tweets').update_one({'tweet_id': id}, {"$set": data}, upsert=True)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').update_one({'tweet_id': id}, {"$set": data}, upsert=True)
         return result.modified_count == 1
 
     def update_tweets(self, filters, data):
@@ -109,7 +124,7 @@ class DatabaseManager:
         Returns:
             int: number of tweets updated
         """
-        result = self.__get_collection('smart_tweets', 'tweets').update_many(filters, data)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').update_many(filters, data)
         return result.modified_count
 
     def delete_tweets(self, filters):
@@ -121,7 +136,7 @@ class DatabaseManager:
         Returns:
             int: number of tweets deleted
         """
-        result = self.__get_collection('smart_tweets', 'tweets').delete_many(filters)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').delete_many(filters)
         return result.deleted_count
 
     def get_tweet_collection(self):
@@ -131,7 +146,7 @@ class DatabaseManager:
         Returns:
             [type]: [description]
         """
-        return self.__get_collection('smart_tweets', 'tweets')
+        return self.__get_collection('smart_tweets', 'tweets_prod')
 
 
     def get_top_positive_tweets(self, filters):
@@ -140,7 +155,7 @@ class DatabaseManager:
         Returns:
             json: top positives tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_scores.positive", -1)]).limit(5)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').find(filters).sort([("sentiment.confidence_scores.positive", -1), ("created_at", -1)]).limit(5)
         return result
 
     def get_top_negative_tweets(self, filters):
@@ -149,7 +164,7 @@ class DatabaseManager:
         Returns:
             json: top negative tweets
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find(filters).sort([("sentiment.confidence_scores.negative", -1)]).limit(5)
+        result = self.__get_collection('smart_tweets', 'tweets_prod').find(filters).sort([("sentiment.confidence_scores.negative", -1), ("created_at", -1)]).limit(5)
         return result
         
     def get_number_of_tweets(self):
@@ -158,7 +173,7 @@ class DatabaseManager:
         Returns:
             int: value
         """
-        result = self.__get_collection('smart_tweets', 'tweets').count()
+        result = self.__get_collection('smart_tweets', 'tweets_prod').count()
         return result
 
     def get_number_of_tweets_by_range(self, range):
@@ -171,34 +186,37 @@ class DatabaseManager:
             int: value
 
         """
-        result = self.__get_collection('smart_tweets', 'tweets').find({"sentiment.sentiment_score" : range}).count()
+        result = self.__get_collection('smart_tweets', 'tweets_prod').find({"sentiment.sentiment_score" : range}).count()
         return result
 
-
-    def get_top_hashtags(self):
+    def get_top_hashtags(self, nb_hashtags):
         """Get the most quoted hashtags.
 
         Returns:
             list
         """
-        mylist = []
 
-        dict_tag = {}
-        for tweet in self.get_tweets({}):
-            list_tag = tweet['entities']['hashtags']
-            for tag in list_tag:
-                text = tag['text']
-                if (not text in dict_tag):
-                    dict_tag[text] = 1
-                else:
-                    dict_tag[text] += 1
-        
-        dict_tag = sorted(dict_tag.items(), key=lambda x: x[1], reverse=True)
-        for key, v in dict_tag[:10]:
-            mylist.append(key)
+        hashtags_list= self.__get_collection('smart_tweets', 'tweets_prod').aggregate([
+            { "$project": {
+                "_id": 0,
+                "entities.hashtags" : 1
+            }},
+            { "$unwind": "$entities.hashtags" },
+            { "$group" : {
+                    "_id": "$entities.hashtags.text",
+                    "count": { "$sum" : 1 }
+                    }
+            },
+            { "$sort" : {
+                "count" : -1
+                }
+            },
+            { "$limit": nb_hashtags }
+        ])
 
-        return mylist
-    
+        results = []
+        for hashtag in hashtags_list:
+            results.append(hashtag.get('_id'))
 
-    
+        return results
 

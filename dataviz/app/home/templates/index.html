@@ -16,7 +16,10 @@
                     <div class="card">
                       <div class="card-body d-flex flex-column">
                         <h4><a href="/dataset"><span class="h3">#XBOXSERIESS</span> {{ nombre }} tweets</a></h4>
-                        <div class="text-muted">{{ hashtags }}</div>
+                        <div class="text-muted">
+                            <span v-for="(hashtag, rindex) in hashtags">
+                                {{'#' + hashtag }}
+                            </span> </div>
                       </div>
                     </div>
                 </div>
@@ -69,9 +72,15 @@
                 </div>
             </div>
             
-            <div class="col-12" style="background-color: red;">
-                <img src="/static/assets/images/timeseries.png" style="height: 400px; width: 1500px"/>
+            <div class="col-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3 class="card-title maj">Répartition des tweets dans le temps</h3>
+                    </div>
+                    <p><img id="timeserie" src="/static/assets/images/timeseries.png"/></p>
+                </div>
             </div>
+
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-green">
@@ -186,6 +195,8 @@
                   </div>
             </div>
           </div>
+          <div id="id_view_image_body"></div>
+        <div id="id_view_image"></div> 
 
         </div>
 
@@ -193,29 +204,13 @@
   </div>
 
   <script>
-        result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
-        result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
-        result_count_tweets = [[count_tweets]];
-        result_count_positive = [[count_positive]];
-        result_count_negative = [[count_negative]];
-        result_count_neutral = [[count_neutral]];
-        hashtag_list=[[tags]];
 
-        // donut 3
-        var chDonutData3 = {
-            labels: ['Negative', 'Neutral', 'Positive'],
-            datasets: [
-            {
-                backgroundColor: colors.slice(0,3),
-                borderWidth: 0,
-                data: [result_count_negative, result_count_neutral, result_count_positive]
-            }
-            ]
-        };
+        var result_positive = JSON.parse([[positive_tweets| tojson | safe]]);
+        var result_negative = JSON.parse([[negative_tweets| tojson | safe]]);
+        var positive = [[count_positive]];
+        var neutral = [[count_neutral]];
+        var negative =  [[count_negative]];
 
-        var chDonut3 = document.getElementById("chDonut3");
-
-        hashtag_list = ["#Carotte", "#Tomates", "#untruc", "#jsp", "#clefeu"];
     try{
 		    Vue.filter('formatDate', function(value) {
                 if (value) {
@@ -233,7 +228,7 @@
                     number_negative: negative,
                     number_neutral: neutral,
                     nombre: [[count_tweets]],
-                    hashtags: hashtag_list
+                    hashtags: [[hash | safe ]]
                 }
             });
         } 
@@ -243,7 +238,7 @@
 
         /**************   chart pie BEGIN   *******************/
 		// chart colors
-        var colors = ['#cd201f ','#467fcf','#5eba00'];
+        var colors = ['#5eba00','#467fcf','#cd201f'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -253,14 +248,13 @@
 
         // donut 3
         var chDonutData3 = {
-                        labels: ['Negative', 'Neutral', 'Positive'],
+                        labels: ['Positive', 'Neutral', 'Negative'],
                         datasets: [
                         {
-                            backgroundColor: colors.slice(0,3),
-                            borderWidth: 0,
+                            backgroundColor: colors.slice(0),
+                            borderWidth: 2,
                             data: [positive,neutral,negative]
-                        }
-            ]
+                        }]
         };
 
         var chDonut3 = document.getElementById("chDonut3");
@@ -273,7 +267,23 @@
             });
         }
 		
-		/**************   chart pie END   *******************/
+        /**************   chart pie END   *******************/
+    
+        /**************   timeserie zoom BEGIN   *******************/
+        $("#timeserie").not(".no-fullscreen").click(function()
+        {
+            $("#id_view_image").html("<img src='"+$(this).attr('src')+"' class='view_image_img'/>");
+            $("#id_view_image_body").addClass("view_image_body");
+            $("#id_view_image").addClass("view_image");
+        }); 
+
+        $("#id_view_image").click(function()
+        {
+            $("#id_view_image").html("");
+            $("#id_view_image_body").removeClass("view_image_body");
+            $("#id_view_image").removeClass("view_image");
+        }); 
+        /**************   timeserie zoom END   *******************/
 </script>
 
 {% endblock content %}

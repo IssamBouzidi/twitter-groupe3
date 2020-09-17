@@ -12,7 +12,8 @@ import dataviz
 from datatweet.tweet_manager import TweetCollection
 from datatweet.tweet_manager import TweetSentimentPrediction
 from datatweet.tweet import SentTweet
-from database.database_access import DatabaseManager
+from database.db_access import DatabaseManager as db
+
 
 #from datatweet import tweet_manager
 #from datatweet.tweet_manager import TweetCollection
@@ -50,10 +51,6 @@ if __name__ == "__main__":
         print("\n")
 
 
-    mongo_instance = DatabaseManager(resources.MONGODB_USER
-                                    , resources.MONGODB_PASSWORD
-                                    , resources.MONGODB_SERVER)
-
-    mongo_instance.add_many_tweets(list_json)
+    db.getInstance().add_many_tweets(list_json)
 
     

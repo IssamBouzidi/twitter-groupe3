@@ -9,31 +9,29 @@ from dataviz.app.base import blueprint
 from dataviz.app.base.util import verify_pass
 from database.db_access import DatabaseManager as db
 from bson.json_util import dumps
+import configuration.resources as resources
 
 @blueprint.route('/')
 def route_default():
-    tweets = db.getInstance().get_tweets({})
     positive = db.getInstance().get_top_positive_tweets({})
     negative = db.getInstance().get_top_negative_tweets({})
-    json_data = dumps(tweets)
     json_positive = dumps(positive)
     json_negative = dumps(negative)
     total_tweets = db.getInstance().get_number_of_tweets()
     number_positive = db.getInstance().get_number_of_tweets_by_range("positive")
     number_neutral = db.getInstance().get_number_of_tweets_by_range("neutral")
     number_negative = db.getInstance().get_number_of_tweets_by_range("negative")
-    listetags = db.getInstance().get_top_hashtags()
+    listetags = db.getInstance().get_top_hashtags(20)
 
 
     return render_template('index.html', 
-        tweets = json_data, 
         positive_tweets = json_positive, 
         negative_tweets = json_negative,         
         count_tweets = total_tweets,
         count_positive = number_positive,
         count_negative = number_negative,
         count_neutral = number_neutral,
-        tags = listetags
+        hash = listetags
         )
 
 @blueprint.route('/error-<error>')
@@ -52,12 +50,18 @@ def tweet_page():
     json_data = dumps(tweet)
     return render_template('tweet.html', tweet_id=tweet.get('tweet_id'), username=tweet.get('user_screenname'), tweet= json_data)
 
-@blueprint.route('/dataset')
+@blueprint.route('/dataset', methods=['GET'])
 def tweets_page():
-    tweets = db.getInstance().get_tweets({})
+    page = int(request.args.get('page', default = '1', type = int))
+    nb_el = int(resources.NB_ITEMS_PER_PAGE)
+
+    tweets = db.getInstance().get_tweets_paginated(page - 1, nb_el)
+    nb_item = db.getInstance().get_number_of_tweets()
+
+    #tweets = db.getInstance().get_tweets({})
     json_data = dumps(tweets)
 
-    return render_template('datasetv2.html', tweets = json_data)
+    return render_template('datasetv2.html', tweets = json_data, page=page, nb_item=nb_item, per_page = nb_el)
 
 ## Errors
 
