@@ -60,7 +60,12 @@ class DatabaseManager:
         """
         result = True
         for tweet in tweets:
-            result &= self.add_one_tweet(tweet)
+            tweet_id = tweet["tweet_id"]
+            # add tweet if tweet is not existed in the database yet
+            if(self.get_tweet_by_id(tweet_id) == None):
+                result &= self.add_one_tweet(tweet)
+            else:
+                print('duplicated tweet: ', tweet_id)
         return result
 
     def get_tweet_by_id(self, id):

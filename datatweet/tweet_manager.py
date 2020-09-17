@@ -9,7 +9,10 @@ import json
 import requests
 import pandas as pd
 from datatweet.tweet import SentTweet
-
+from database.db_access import DatabaseManager as db
+from configuration.resources import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, CONSUMER_KEY, CONSUMER_SECRRET, SENTIMENT_ENDPOINT_URL, SUBSCRIPTION_KEY
+import matplotlib.pyplot as plt
+import os
 
 
 
@@ -131,15 +134,7 @@ class TweetSentimentPrediction:
                     documents.append(tweet.to_json_azure())
 
                 list_documents.append({"documents" : documents})
-    
 
-
-                """
-                if (end > c_tweet):
-                    end = c_tweet   
-                """
-                
-        
         return list_documents
 
         
@@ -165,6 +160,106 @@ class TweetSentimentPrediction:
         return self.list_tweet
 
     
+
+class TweetLoader:
+
+    def __init__(self, product='#XboxSeriesS'):
+        self.product = product
+
+
+
+    def export_timeseries_chart(self):
+        pipeline = [
+
+            {
+            "$project":
+            
+            {
+                "date" : "$created_at"
+                , "sentiment": "$sentiment.sentiment_score",
+                "score" : {
+
+                                    "$switch": {
+                                        "branches": [
+                                            { "case": {"$eq": ["$sentiment.sentiment_score", "positive"] } , "then": "$sentiment.confidence_scores.positive" },
+                                            { "case": {"$eq": ["$sentiment.sentiment_score", "negative"] }, "then":  "$sentiment.confidence_scores.negative" },
+                                            { "case": {"$eq": ["$sentiment.sentiment_score", "neutral"] }, "then":  "$sentiment.confidence_scores.neutral" }
+                                
+                                        ],
+                                                                                
+                                        "default": {"$max": ["$sentiment.confidence_scores.positive" , "$sentiment.confidence_scores.negative" , "$sentiment.confidence_scores.neutral"]} 
+
+                                    }
+                }
+
+            
+
+
+                }#project
+            }]
+                    
+        ts_sentiment = db.getInstance().get_tweet_collection().aggregate(pipeline)
+
+        # use set() to remove the duplication
+        set_tweet_sent = set()
+                                
+        for row in ts_sentiment:
+            set_tweet_sent.add((row['date'], row['sentiment'], row['score']))
+
+        list_date = []
+        list_sent_pos = []
+        list_sent_neg = []
+        list_sent_neu = []
+
+        for date, sent, score in set_tweet_sent:
+            if sent == 'mixed':
+                continue
+            list_date.append(str(date))
+            if (sent == 'positive'):
+                list_sent_pos.append(score)
+                list_sent_neu.append(0)
+                list_sent_neg.append(0)
+            elif (sent == 'negative'):
+                list_sent_pos.append(0)
+                list_sent_neu.append(0)
+                list_sent_neg.append(score)
+            else:
+                list_sent_pos.append(0)
+                list_sent_neu.append(score)
+                list_sent_neg.append(0)
+
+
+        df_ts_sent = pd.DataFrame(data = {'positive' : list_sent_pos
+                                        , 'negative' : list_sent_neg
+                                        , 'neutral' : list_sent_neu }
+                                , index = list_date )
+        
+
+        df_ts_sent.plot(figsize=(50, 20), linestyle=' ', marker='X', color=['green', 'red', 'blue'])
+        plt.legend('')
+
+        plt.savefig(os.getcwd() + '/dataviz/app/base/static/assets/images/timeseries.png')
+
+
+    def load_data(self):
+        # test first 5 most recent tweets
+        list_tweet = TweetCollection(CONSUMER_KEY, CONSUMER_SECRRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET).get_tweet_by_product(self.product)
+
+        list_sent_tweet = TweetSentimentPrediction(list_tweet, SUBSCRIPTION_KEY,SENTIMENT_ENDPOINT_URL).predict()
+                
+        list_json = []
+        for tweet in list_sent_tweet:
+            #print(tweet.to_json())
+            list_json.append(tweet.to_json())
+
+        db.getInstance().add_many_tweets(list_json)
+
+        self.export_timeseries_chart()
+
+
+
+
+
 
 
 
