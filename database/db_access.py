@@ -86,6 +86,18 @@ class DatabaseManager:
         """
         return self.__get_collection('smart_tweets', 'tweets').find(filters)
 
+    def get_tweets_paginated(self, page, nb_elements):
+        result=  self.__get_collection('smart_tweets', 'tweets').aggregate([
+                                                { "$sort" : {
+                                                    "created_at" : -1
+                                                    }
+                                                },
+                                                { "$skip" : page*nb_elements },
+                                                { "$limit": nb_elements }
+                                    ])
+
+        return result
+
     def update_tweet_by_id(self, id, data):
         """Update a tweet by its id
 
