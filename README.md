@@ -1,6 +1,7 @@
 
 # twitter-groupe3
-Realization of the Smart tweet brief
+Realization of the Smart tweet brief  </br>
+[](/mainpage.PNG)
 
 ### Installation
 - pip install requirements.txt
