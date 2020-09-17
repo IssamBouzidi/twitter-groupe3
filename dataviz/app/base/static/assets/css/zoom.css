@@ -31,3 +31,8 @@
     max-width: 95%;
     cursor: zoom-out;
 } 
+
+#timeserie
+{
+    cursor: zoom-in;
+}
