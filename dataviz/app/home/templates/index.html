@@ -236,7 +236,7 @@
 
         /**************   chart pie BEGIN   *******************/
 		// chart colors
-        var colors = ['#cd201f ','#467fcf','#5eba00'];
+        var colors = ['#5eba00','#467fcf','#cd201f'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -246,12 +246,12 @@
 
         // donut 3
         var chDonutData3 = {
-                        labels: ['Negative', 'Neutral', 'Positive'],
+                        labels: ['Positive', 'Neutral', 'Negative'],
                         datasets: [
                         {
-                            backgroundColor: colors.slice(0,3),
-                            borderWidth: 0,
-                            data: [negative,neutral,positive]
+                            backgroundColor: colors.slice(0),
+                            borderWidth: 2,
+                            data: [positive,neutral,negative]
                         }]
         };
 
