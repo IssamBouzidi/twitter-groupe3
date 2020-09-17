@@ -1,8 +1,13 @@
+#Recherche des sentiments via Azure Text Analytics Cognitive Service
+#Cette classe est une ébauche où les routines seront intégrées dans d'autres classes
+#Auteur : Nicolas Campion
+#Dernière mise à jour : 17 septembre 2020
+
+
 import requests
-from pprint import pprint
 import os
 
-#Extraction des données du json généré par Azure Text Ananlytics
+#Extraction des données du json généré par Azure Text Analytics Cognitive Service
 def traitement_Data_IA():
     for j in sentiments["documents"]:
         for repere, valeur in j.items(): 

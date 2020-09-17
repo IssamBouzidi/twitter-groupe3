@@ -19,6 +19,7 @@ Realization of the Smart tweet brief  </br>
 	- add_many_tweets
 	- get_tweet_by_id
 	- get_tweets
+	- get_tweets_paginated
 	- update_tweet_by_id
 	- update_tweets
 	- delete_tweets
