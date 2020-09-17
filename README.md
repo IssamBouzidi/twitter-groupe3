@@ -48,3 +48,7 @@ Realization of the Smart tweet brief  </br>
 
 ### Launch
 - python main.py
+
+
+### Credit
+This work is a collaboration of Audrey, Diem Bui, Maxime Veysseyre, Nicolas Campion and Mathieu
