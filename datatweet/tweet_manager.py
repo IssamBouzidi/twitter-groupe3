@@ -238,7 +238,7 @@ class TweetLoader:
         df_ts_sent.plot(figsize=(50, 20), linestyle=' ', marker='X', color=['green', 'red', 'blue'])
         plt.legend('')
 
-        plt.savefig(os.getcwd() + '/dataviz/app/base/static/assets/images/timeseries.png')
+        plt.savefig(os.getcwd() + '/dataviz/app/base/static/assets/images/timeseries_sent.png')
 
 
     def load_data(self):
