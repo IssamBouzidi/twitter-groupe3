@@ -77,7 +77,7 @@
                     <div class="card-header">
                         <h3 class="card-title maj">Répartition des tweets dans le temps</h3>
                     </div>
-                    <p><img src="/static/assets/images/timeseries.png"/></p>
+                    <p><img id="timeserie" src="/static/assets/images/timeseries.png"/></p>
                 </div>
             </div>
 
@@ -195,6 +195,8 @@
                   </div>
             </div>
           </div>
+          <div id="id_view_image_body"></div>
+        <div id="id_view_image"></div> 
 
         </div>
 
@@ -265,7 +267,23 @@
             });
         }
 		
-		/**************   chart pie END   *******************/
+        /**************   chart pie END   *******************/
+    
+        /**************   timeserie zoom BEGIN   *******************/
+        $("#timeserie").not(".no-fullscreen").click(function()
+        {
+            $("#id_view_image").html("<img src='"+$(this).attr('src')+"' class='view_image_img'/>");
+            $("#id_view_image_body").addClass("view_image_body");
+            $("#id_view_image").addClass("view_image");
+        }); 
+
+        $("#id_view_image").click(function()
+        {
+            $("#id_view_image").html("");
+            $("#id_view_image_body").removeClass("view_image_body");
+            $("#id_view_image").removeClass("view_image");
+        }); 
+        /**************   timeserie zoom END   *******************/
 </script>
 
 {% endblock content %}
