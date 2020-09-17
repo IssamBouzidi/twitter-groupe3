@@ -3,8 +3,7 @@
 Realization of the Smart tweet brief
 
 ### Installation
-- tweepy
-- pymongo
+- pip install requirements.txt
 
 ### Project structure
 
