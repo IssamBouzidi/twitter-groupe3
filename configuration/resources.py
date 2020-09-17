@@ -23,3 +23,4 @@ SUBSCRIPTION_KEY = "c42ac7b0e0944f748407efd276d748ff"
 """Website configuration
 """
 APPSEED_CONFIG_MODE = 'Debug'
+NB_ITEMS_PER_PAGE = 100

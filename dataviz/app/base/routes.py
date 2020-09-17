@@ -9,6 +9,7 @@ from dataviz.app.base import blueprint
 from dataviz.app.base.util import verify_pass
 from database.db_access import DatabaseManager as db
 from bson.json_util import dumps
+import configuration.resources as resources
 
 @blueprint.route('/')
 def route_default():
@@ -49,12 +50,18 @@ def tweet_page():
     json_data = dumps(tweet)
     return render_template('tweet.html', tweet_id=tweet.get('tweet_id'), username=tweet.get('user_screenname'), tweet= json_data)
 
-@blueprint.route('/dataset')
+@blueprint.route('/dataset', methods=['GET'])
 def tweets_page():
-    tweets = db.getInstance().get_tweets({})
+    page = int(request.args.get('page', default = '1', type = int))
+    nb_el = int(resources.NB_ITEMS_PER_PAGE)
+
+    tweets = db.getInstance().get_tweets_paginated(page - 1, nb_el)
+    nb_item = db.getInstance().get_number_of_tweets()
+
+    #tweets = db.getInstance().get_tweets({})
     json_data = dumps(tweets)
 
-    return render_template('datasetv2.html', tweets = json_data)
+    return render_template('datasetv2.html', tweets = json_data, page=page, nb_item=nb_item, per_page = nb_el)
 
 ## Errors
 

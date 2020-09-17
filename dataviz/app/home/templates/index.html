@@ -73,11 +73,11 @@
             </div>
             
             <div class="col-12">
-                <div class="card">
+                <div class="card text-center">
                     <div class="card-header">
                         <h3 class="card-title maj">Répartition des tweets dans le temps</h3>
                     </div>
-                    <img src="/static/assets/images/timeseries.png" style="height: 400px; width: 1500px"/>
+                    <p><img src="/static/assets/images/timeseries.png"/></p>
                 </div>
             </div>
 
@@ -236,7 +236,7 @@
 
         /**************   chart pie BEGIN   *******************/
 		// chart colors
-        var colors = ['#cd201f ','#467fcf','#5eba00'];
+        var colors = ['#5eba00','#467fcf','#cd201f'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -246,11 +246,11 @@
 
         // donut 3
         var chDonutData3 = {
-                        labels: ['Negative', 'Neutral', 'Positive'],
+                        labels: ['Positive', 'Neutral', 'Negative'],
                         datasets: [
                         {
-                            backgroundColor: colors.slice(0,3),
-                            borderWidth: 0,
+                            backgroundColor: colors.slice(0),
+                            borderWidth: 2,
                             data: [positive,neutral,negative]
                         }]
         };
